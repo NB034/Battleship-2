@@ -4,4 +4,6 @@
     <sys:String x:Key="StartGame">Start game</sys:String>
     <sys:String x:Key="Exit">Exit</sys:String>
     <sys:String x:Key="Title">Battleship 2</sys:String>
+    <sys:String x:Key="ToMainMenu">Main menu</sys:String>
+    <sys:String x:Key="ResumeGame">Resume</sys:String>
 </ResourceDictionary>
