@@ -38,5 +38,8 @@ namespace Battleship_2.Models.Logic
                 }
             }
         }
+
+        public bool IsPlayerWin => aiFieldManager.Field.Fleet.IsDestroyed;
+        public bool IsAiWin => playerFieldManager.Field.Fleet.IsDestroyed;
     }
 }

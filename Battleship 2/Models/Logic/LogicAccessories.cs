@@ -111,5 +111,20 @@ namespace Battleship_2.Models.Logic
             nextCell = null;
             return false;
         }
+
+        public static void OpenCellsAroundDestroyedShip(ref Field field, Guid shipGuid)
+        {
+            for (int i = 0; i < NumberOfFieldRows; i++)
+            {
+                for (int j = 0; j < NumberOfFieldColumns; j++)
+                {
+                    var cell = field.Cells[i, j];
+                    if (cell.ShipsGuids.Contains(shipGuid))
+                    {
+                        cell.IsOpen = true;
+                    }
+                }
+            }
+        }
     }
 }

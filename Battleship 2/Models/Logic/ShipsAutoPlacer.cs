@@ -37,7 +37,7 @@ namespace Battleship_2.Models.Logic
                 orientation = random.NextDouble() > 0.5 ? OrientationsEnum.Right : OrientationsEnum.Down;
             }
 
-            var ship = new Ship();
+            var ship = new Ship(orientation);
             for (int i = 0; i < numberOfCells; i++)
             {
                 Cell cell = new Cell(firstCell.X, firstCell.Y, CellTypesEnum.ShipDeck);

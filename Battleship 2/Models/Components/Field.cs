@@ -2,7 +2,7 @@
 
 namespace Battleship_2.Models.Components
 {
-    internal class Field
+    public class Field
     {
         public Cell[,] Cells { get; set; }
         public Fleet Fleet { get; private set; }
@@ -51,7 +51,7 @@ namespace Battleship_2.Models.Components
 
         public void OpenRange(BaseCell[] cells)
         {
-            foreach(var cell in cells)
+            foreach (var cell in cells)
             {
                 if (!Cells[cell.X, cell.Y].IsOpen)
                 {

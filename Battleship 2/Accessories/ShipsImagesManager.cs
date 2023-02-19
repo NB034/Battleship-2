@@ -21,7 +21,7 @@ namespace Battleship_2.Accessories
             };
         }
 
-        public Image[] GetSecomdShipsSet()
+        public Image[] GetSecondShipsSet()
         {
             return new[]
             {

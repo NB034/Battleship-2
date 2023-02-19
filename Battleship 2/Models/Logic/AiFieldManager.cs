@@ -1,5 +1,6 @@
 ﻿using Battleship_2.Exceptions;
 using Battleship_2.Models.Components;
+using System;
 using System.Linq;
 
 namespace Battleship_2.Models.Logic
@@ -10,7 +11,7 @@ namespace Battleship_2.Models.Logic
         private Field field;
         public Field Field => field;
 
-        public AiFieldManager(ref Field field)
+        public AiFieldManager(Field field)
         {
             core = new AiCore();
             this.field = field;
@@ -37,6 +38,10 @@ namespace Battleship_2.Models.Logic
                     {
                         core.ShipWasDamaged(randomCell);
                     }
+                    else if(fieldCell.CellType == CellTypesEnum.ShipDeck)
+                    {
+                        LogicAccessories.OpenCellsAroundDestroyedShip(ref field, fieldCell.ShipsGuids.First());
+                    }
                     break;
                 }
             }
@@ -61,6 +66,11 @@ namespace Battleship_2.Models.Logic
                         && !field.Fleet.GetShip(fieldCell.ShipsGuids.First()).IsDestroyed)
                     {
                         core.ShipWasDamaged(nextCell);
+                    }
+                    else if(fieldCell.CellType == CellTypesEnum.ShipDeck)
+                    {
+                        core.ShipWasDestroyed();
+                        LogicAccessories.OpenCellsAroundDestroyedShip(ref field, fieldCell.ShipsGuids.First());
                     }
                     else
                     {

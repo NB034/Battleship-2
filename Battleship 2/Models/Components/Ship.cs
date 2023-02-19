@@ -4,18 +4,20 @@ using System.Linq;
 
 namespace Battleship_2.Models.Components
 {
-    internal class Ship
+    public class Ship
     {
         public int NumberOfDecks => Cells.Count;
         public List<Cell> Cells { get; set; }
         public Guid ShipGuid { get; }
         public bool IsDestroyed => Cells.Any(c => !c.IsOpen);
+        public OrientationsEnum Orientation { get; }
 
-        public Ship() : this(new List<Cell>()) { }
-        public Ship(List<Cell> cells)
+        public Ship(OrientationsEnum orientation) : this(new List<Cell>(), orientation) { }
+        public Ship(List<Cell> cells, OrientationsEnum orientation)
         {
             ShipGuid = Guid.NewGuid();
             Cells = cells;
+            Orientation = orientation;
         }
 
         public void AddCell(ref Cell cell)

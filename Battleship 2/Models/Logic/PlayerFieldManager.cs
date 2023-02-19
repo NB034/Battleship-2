@@ -1,4 +1,5 @@
 ﻿using Battleship_2.Models.Components;
+using System.Linq;
 
 namespace Battleship_2.Models.Logic
 {
@@ -7,7 +8,7 @@ namespace Battleship_2.Models.Logic
         private Field field;
         public Field Field => field;
 
-        public PlayerFieldManager(ref Field field)
+        public PlayerFieldManager(Field field)
         {
             this.field = field;
         }
@@ -16,6 +17,11 @@ namespace Battleship_2.Models.Logic
         {
             Cell fieldCell = field.Cells[selectedCell.X, selectedCell.Y];
             field.OpenCell(fieldCell);
+            if (fieldCell.CellType == CellTypesEnum.ShipDeck
+                && field.Fleet.GetShip(fieldCell.ShipsGuids.First()).IsDestroyed)
+            {
+                LogicAccessories.OpenCellsAroundDestroyedShip(ref field, fieldCell.ShipsGuids.First());
+            }
         }
     }
 }

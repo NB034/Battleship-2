@@ -14,5 +14,6 @@ namespace Battleship_2.ViewModels
         Int32 Column { get; set; }
         Int32 RowSpan { get; set; }
         Int32 ColumnSpan { get; set; }
+        bool IsVisible { get; set; }
     }
 }

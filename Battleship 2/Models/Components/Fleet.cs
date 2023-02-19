@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace Battleship_2.Models.Components
 {
-    internal class Fleet
+    public class Fleet
     {
         public List<Ship> Ships { get; set; }
-        public bool ISDestroyed => Ships.Any(s => !s.IsDestroyed);
+        public bool IsDestroyed => Ships.Any(s => !s.IsDestroyed);
 
         public Fleet() : this(new List<Ship>()) { }
         public Fleet(List<Ship> ships)

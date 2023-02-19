@@ -9,6 +9,7 @@ namespace Battleship_2.ViewModels
         public int Column { get; set; } = 0;
         public int RowSpan { get; set; } = 1;
         public int ColumnSpan { get; set; } = 1;
+        public bool IsVisible { get; set; } = false;
 
         public ShipViewModel(Image shipImage)
         {
