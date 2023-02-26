@@ -18,6 +18,8 @@ namespace Battleship_2.ViewModels
         public CellViewModel(bool isShipDeck)
         {
             this.isShipDeck = isShipDeck;
+            isOpen = false;
+            isShipDestroyed = false;
         }
 
         public bool IsOpen { get => isOpen; set => SetProperty(ref isOpen, value, nameof(IsOpen)); }

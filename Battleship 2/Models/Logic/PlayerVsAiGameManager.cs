@@ -16,8 +16,12 @@ namespace Battleship_2.Models.Logic
             AiTurnDelayInMilliseconds = 1000;
         }
 
-        public Field AiField => aiFieldManager.Field;
-        public Field PlayerField => playerFieldManager.Field;
+        public BaseCell AiLastOpenedCell => aiFieldManager.LastOpenedCell;
+        public BaseCell PlayerLastOpenedCell => playerFieldManager.LastOpenedCell;
+        public Fleet AiFleet => aiFieldManager.Field.Fleet;
+        public Fleet PlayerFleet => playerFieldManager.Field.Fleet;
+        public Cell[,] AiField => aiFieldManager.Field.Cells;
+        public Cell[,] PlayerField => playerFieldManager.Field.Cells;
         public Int64 AiTurnDelayInMilliseconds { get; set; }
 
         public void PlayerTurn(BaseCell cell)

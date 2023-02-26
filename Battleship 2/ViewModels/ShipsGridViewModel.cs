@@ -1,4 +1,5 @@
 ﻿using Battleship_2.Accessories;
+using Battleship_2.Exceptions;
 using Battleship_2.Models.Components;
 using Battleship_2.Models.Logic;
 using System;
@@ -19,25 +20,25 @@ namespace Battleship_2.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public IShipViewModel Decks_4 => throw new NotImplementedException();
+        public IShipViewModel Decks_4 => shipViewModels[0];
 
-        public IShipViewModel Decks_3_Num_1 => throw new NotImplementedException();
+        public IShipViewModel Decks_3_Num_1 => shipViewModels[1];
 
-        public IShipViewModel Decks_3_Num_2 => throw new NotImplementedException();
+        public IShipViewModel Decks_3_Num_2 => shipViewModels[2];
 
-        public IShipViewModel Decks_2_Num_1 => throw new NotImplementedException();
+        public IShipViewModel Decks_2_Num_1 => shipViewModels[3];
 
-        public IShipViewModel Decks_2_Num_2 => throw new NotImplementedException();
+        public IShipViewModel Decks_2_Num_2 => shipViewModels[4];
 
-        public IShipViewModel Decks_2_Num_3 => throw new NotImplementedException();
+        public IShipViewModel Decks_2_Num_3 => shipViewModels[5];
 
-        public IShipViewModel Decks_1_Num_1 => throw new NotImplementedException();
+        public IShipViewModel Decks_1_Num_1 => shipViewModels[6];
 
-        public IShipViewModel Decks_1_Num_2 => throw new NotImplementedException();
+        public IShipViewModel Decks_1_Num_2 => shipViewModels[7];
 
-        public IShipViewModel Decks_1_Num_3 => throw new NotImplementedException();
+        public IShipViewModel Decks_1_Num_3 => shipViewModels[8];
 
-        public IShipViewModel Decks_1_Num_4 => throw new NotImplementedException();
+        public IShipViewModel Decks_1_Num_4 => shipViewModels[9];
 
         public ShipsGridViewModel(Image[] images, Fleet fleet, OrientationsEnum gridLocation)
         {
@@ -48,6 +49,11 @@ namespace Battleship_2.ViewModels
             location = gridLocation;
 
             int[] decks = LogicAccessories.NumberOfShipsDecks;
+
+            if (decks.Length != 10)
+                throw new ShipsGridViewModelException("Class [ShipsGridViewModel] can only be used when " +
+                    "[LogicAccessories.NumberOfShipsDecks.Length] equals 10");
+
             shipViewModels = new ShipViewModel[decks.Length];
 
             for (int i = 0; i < shipViewModels.Length; i++)
@@ -99,6 +105,26 @@ namespace Battleship_2.ViewModels
                     }
                 }
             }
+            NotifyAllPropertiesChanged();
+        }
+
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void NotifyAllPropertiesChanged()
+        {
+            NotifyPropertyChanged(nameof(Decks_1_Num_1));
+            NotifyPropertyChanged(nameof(Decks_1_Num_2));
+            NotifyPropertyChanged(nameof(Decks_1_Num_3));
+            NotifyPropertyChanged(nameof(Decks_1_Num_4));
+            NotifyPropertyChanged(nameof(Decks_2_Num_1));
+            NotifyPropertyChanged(nameof(Decks_2_Num_2));
+            NotifyPropertyChanged(nameof(Decks_2_Num_3));
+            NotifyPropertyChanged(nameof(Decks_3_Num_1));
+            NotifyPropertyChanged(nameof(Decks_3_Num_2));
+            NotifyPropertyChanged(nameof(Decks_4));
         }
     }
 }

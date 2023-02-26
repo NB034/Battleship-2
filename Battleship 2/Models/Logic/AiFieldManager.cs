@@ -5,25 +5,35 @@ using System.Linq;
 
 namespace Battleship_2.Models.Logic
 {
-    internal class AiFieldManager
+    internal class AiFieldManager : IFieldManager
     {
         private AiCore core;
         private Field field;
+        private BaseCell lastOpenedCell;
+
         public Field Field => field;
+        public BaseCell LastOpenedCell => lastOpenedCell;
 
         public AiFieldManager(Field field)
         {
             core = new AiCore();
             this.field = field;
+            lastOpenedCell = BaseCell.NotValid;
         }
 
         public void Shoot()
         {
-            if (core.HasFoundShip) DestroyShip();
-            else FindTarget();
+            if (core.HasFoundShip)
+            {
+                lastOpenedCell = DestroyShip();
+            }
+            else
+            {
+                lastOpenedCell = FindTarget();
+            }
         }
 
-        private void FindTarget()
+        private BaseCell FindTarget()
         {
             while (true)
             {
@@ -38,16 +48,16 @@ namespace Battleship_2.Models.Logic
                     {
                         core.ShipWasDamaged(randomCell);
                     }
-                    else if(fieldCell.CellType == CellTypesEnum.ShipDeck)
+                    else if (fieldCell.CellType == CellTypesEnum.ShipDeck)
                     {
                         LogicAccessories.OpenCellsAroundDestroyedShip(ref field, fieldCell.ShipsGuids.First());
                     }
-                    break;
+                    return fieldCell.Base;
                 }
             }
         }
 
-        private void DestroyShip()
+        private BaseCell DestroyShip()
         {
             if (core.LastFoundedCell != null && core.NextShotDirection != null)
             {
@@ -67,7 +77,7 @@ namespace Battleship_2.Models.Logic
                     {
                         core.ShipWasDamaged(nextCell);
                     }
-                    else if(fieldCell.CellType == CellTypesEnum.ShipDeck)
+                    else if (fieldCell.CellType == CellTypesEnum.ShipDeck)
                     {
                         core.ShipWasDestroyed();
                         LogicAccessories.OpenCellsAroundDestroyedShip(ref field, fieldCell.ShipsGuids.First());
@@ -76,7 +86,7 @@ namespace Battleship_2.Models.Logic
                     {
                         core.Miss();
                     }
-                    return;
+                    return fieldCell.Base;
                 }
             }
 

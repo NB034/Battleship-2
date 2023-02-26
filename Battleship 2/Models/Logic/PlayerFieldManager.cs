@@ -3,14 +3,18 @@ using System.Linq;
 
 namespace Battleship_2.Models.Logic
 {
-    internal class PlayerFieldManager
+    internal class PlayerFieldManager : IFieldManager
     {
         private Field field;
+        private BaseCell lastOpenedCell;
+
         public Field Field => field;
+        public BaseCell LastOpenedCell => lastOpenedCell;
 
         public PlayerFieldManager(Field field)
         {
             this.field = field;
+            lastOpenedCell = BaseCell.NotValid;
         }
 
         public void Shoot(BaseCell selectedCell)
@@ -22,6 +26,7 @@ namespace Battleship_2.Models.Logic
             {
                 LogicAccessories.OpenCellsAroundDestroyedShip(ref field, fieldCell.ShipsGuids.First());
             }
+            lastOpenedCell = fieldCell;
         }
     }
 }

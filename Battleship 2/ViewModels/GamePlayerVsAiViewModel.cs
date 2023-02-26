@@ -1,39 +1,48 @@
 ﻿using Battleship_2.Command;
 using Battleship_2.Models.Components;
+using Battleship_2.ViewModels.Abstractions;
+using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Battleship_2.ViewModels
 {
-    internal class GamePlayerVsAiViewModel : IGamePageViewModel
+    internal class GamePlayerVsAiViewModel : IGamePageViewModel, INotifyPropertyChanged
     {
+        private readonly IGameManagerViewModel gameManager;
         private readonly AutoEventCommandBase openMenuCommand;
         private readonly AutoEventCommandBase shootCommand;
-
-        //private readonly IShipsGridViewModel leftShips;
-        //private readonly IShipsGridViewModel rightShips;
+        private bool isShootAllowed;
 
         public GamePlayerVsAiViewModel()
         {
+            gameManager = new PlayerVsAiGameManagerViewModel();
             openMenuCommand = new AutoEventCommandBase(o => o.ToString(), _ => true);
-            shootCommand = new AutoEventCommandBase(o => o.ToString(), _ => true);
+            shootCommand = new AutoEventCommandBase(o => Shoot(o), _ => IsShootAllowed);
+            isShootAllowed = true;
+        }
 
-            //leftShips = new ShipsGridViewModel();
-            //rightShips = new ShipsGridViewModel();
+        private void Shoot(object o)
+        {
+            IsShootAllowed = false;
+            gameManager.ShootCommand.Execute(o);
+            IsShootAllowed= true;
+        }
 
-            LeftField = new ObservableCollection<Cell>();
-            RightField = new ObservableCollection<Cell>();
-            for (int i = 0; i < 100; i++)
+        public bool IsShootAllowed
+        {
+            get => isShootAllowed;
+            set
             {
-                LeftField.Add(new Cell());
-                RightField.Add(new Cell());
+                isShootAllowed = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsShootAllowed)));
             }
         }
 
+        public IGameManagerViewModel GameManager => gameManager;
         public AutoEventCommandBase OpenMenuCommand => openMenuCommand;
         public AutoEventCommandBase ShootCommand => shootCommand;
-        public ObservableCollection<Cell> LeftField { get; set; }
-        public ObservableCollection<Cell> RightField { get; set; }
-        //public IShipsGridViewModel LeftShips => leftShips;
-        //public IShipsGridViewModel RightShips => rightShips;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

@@ -25,5 +25,7 @@ namespace Battleship_2.Models.Components
             if (CellType == CellTypesEnum.NearTheShip && ShipsGuids.Count >= 4) return;
             ShipsGuids.Add(guid);
         }
+
+        public BaseCell Base => new BaseCell(X, Y);
     }
 }

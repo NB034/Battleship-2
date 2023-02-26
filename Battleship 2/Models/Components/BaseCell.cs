@@ -11,5 +11,7 @@
             X = x;
             Y = y;
         }
+
+        public static BaseCell NotValid => new BaseCell(-1, -1);
     }
 }

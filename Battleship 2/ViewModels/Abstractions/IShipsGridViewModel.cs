@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Battleship_2.Models.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,7 @@ namespace Battleship_2.ViewModels
         IShipViewModel Decks_1_Num_2 { get; }
         IShipViewModel Decks_1_Num_3 { get; }
         IShipViewModel Decks_1_Num_4 { get; }
+
+        void RefreshState(Fleet fleet);
     }
 }
