@@ -8,7 +8,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <Path Data="M1024 384v128l-108.8 38.4c-12.8 38.4-25.6 76.8-44.8 115.2l51.2 102.4-89.6 89.6-102.4-51.2c-32 19.2-70.4 38.4-115.2 44.8l-38.4 108.8h-128l-38.4-108.8c-38.4-12.8-76.8-25.6-108.8-44.8l-102.4 51.2-96-96 51.2-102.4c-19.2-32-32-70.4-44.8-108.8l-108.8-38.4v-128l108.8-38.4c12.8-38.4 25.6-76.8 44.8-115.2l-51.2-102.4 89.6-89.6 102.4 51.2c32-19.2 70.4-38.4 115.2-44.8l38.4-108.8h128l38.4 108.8c38.4 12.8 76.8 25.6 115.2 44.8l102.4-51.2 89.6 89.6-51.2 102.4c19.2 32 38.4 70.4 44.8 115.2l108.8 38.4zM512 192c-140.8 0-256 115.2-256 256s115.2 256 256 256 256-115.2 256-256-115.2-256-256-256zM678.4 454.4c0-88.366-71.634-160-160-160s-160 71.634-160 160c0 88.366 71.634 160 160 160s160-71.634 160-160z"
               Stroke="{x:Null}"
-              Fill="{StaticResource MainStyleColor}"
+              Fill="{StaticResource MainStyleBrush}"
               Stretch="UniformToFill"
               Width="25"
               Height="25"
@@ -20,7 +20,17 @@
               StrokeLineJoin="miter"/>
     </Canvas>
 
-    <ImageBrush x:Key="Fleet1Ship1" ImageSource="../../Resources/Assets/Fleet 1 - Ship 1.png"/>
+    <Image x:Key="Fleet1Ship1" Source="../../Resources/Assets/Fleet 1 - Ship 1.png"/>
+    <Image x:Key="Fleet1Ship2" Source="../../Resources/Assets/Fleet 1 - Ship 2.png"/>
+    <Image x:Key="Fleet1Ship3" Source="../../Resources/Assets/Fleet 1 - Ship 3.png"/>
+    <Image x:Key="Fleet1Ship4" Source="../../Resources/Assets/Fleet 1 - Ship 4.png"/>
+
+    <Image x:Key="Fleet2Ship1" Source="../../Resources/Assets/Fleet 2 - Ship 1.png"/>
+    <Image x:Key="Fleet2Ship2" Source="../../Resources/Assets/Fleet 2 - Ship 2.png"/>
+    <Image x:Key="Fleet2Ship3" Source="../../Resources/Assets/Fleet 2 - Ship 3.png"/>
+    <Image x:Key="Fleet2Ship4" Source="../../Resources/Assets/Fleet 2 - Ship 4.png"/>
+
+    <!--<ImageBrush x:Key="Fleet1Ship1" ImageSource="../../Resources/Assets/Fleet 1 - Ship 1.png"/>
     <ImageBrush x:Key="Fleet1Ship2" ImageSource="../../Resources/Assets/Fleet 1 - Ship 2.png"/>
     <ImageBrush x:Key="Fleet1Ship3" ImageSource="../../Resources/Assets/Fleet 1 - Ship 3.png"/>
     <ImageBrush x:Key="Fleet1Ship4" ImageSource="../../Resources/Assets/Fleet 1 - Ship 4.png"/>
@@ -28,6 +38,6 @@
     <ImageBrush x:Key="Fleet2Ship1" ImageSource="../../Resources/Assets/Fleet 2 - Ship 1.png"/>
     <ImageBrush x:Key="Fleet2Ship2" ImageSource="../../Resources/Assets/Fleet 2 - Ship 2.png"/>
     <ImageBrush x:Key="Fleet2Ship3" ImageSource="../../Resources/Assets/Fleet 2 - Ship 3.png"/>
-    <ImageBrush x:Key="Fleet2Ship4" ImageSource="../../Resources/Assets/Fleet 2 - Ship 4.png"/>
+    <ImageBrush x:Key="Fleet2Ship4" ImageSource="../../Resources/Assets/Fleet 2 - Ship 4.png"/>-->
 
 </ResourceDictionary>

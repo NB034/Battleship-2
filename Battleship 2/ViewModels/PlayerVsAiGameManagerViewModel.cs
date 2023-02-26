@@ -25,19 +25,20 @@ namespace Battleship_2.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ObservableCollection<CellViewModel> PlayerField { get; private set; }
-        public ObservableCollection<CellViewModel> AiField { get; private set; }
+        public ObservableCollection<CellViewModel> LeftField { get; private set; }
+        public ObservableCollection<CellViewModel> RightField { get; private set; }
 
-        public IShipsGridViewModel AiShips
+        public IShipsGridViewModel RightFieldShips
         {
             get => aiShips;
-            private set => SetProperty(ref aiShips, value, nameof(AiShips));
+            private set => SetProperty(ref aiShips, value, nameof(RightFieldShips));
         }
-        public IShipsGridViewModel PlayerShips
+        public IShipsGridViewModel LeftFieldShips
         {
             get => playerShips;
-            private set => SetProperty(ref playerShips, value, nameof(PlayerShips));
+            private set => SetProperty(ref playerShips, value, nameof(LeftFieldShips));
         }
+
         public AutoEventCommandBase ShootCommand => shootCommand;
 
         public PlayerVsAiGameManagerViewModel()
@@ -63,18 +64,15 @@ namespace Battleship_2.ViewModels
                 }
             }
 
-            PlayerField = new ObservableCollection<CellViewModel>(playerCellsList);
-            AiField = new ObservableCollection<CellViewModel>(aiCellsList);
+            LeftField = new ObservableCollection<CellViewModel>(playerCellsList);
+            RightField = new ObservableCollection<CellViewModel>(aiCellsList);
 
-            shootCommand = new AutoEventCommandBase(o => Shoot((CellViewModel)o), _ => IsShootAllowed);
-            isShootAllowed = true;
+            shootCommand = new AutoEventCommandBase(o => Shoot((CellViewModel)o), _ => true);
         }
 
         private void Shoot(CellViewModel cell)
         {
-            IsShootAllowed = false;
-
-            int indexOfCell = AiField.IndexOf(cell);
+            int indexOfCell = RightField.IndexOf(cell);
             int rows = indexOfCell / LogicAccessories.NumberOfFieldRows;
             int columns = indexOfCell % LogicAccessories.NumberOfFieldColumns;
             gameManager.PlayerTurn(new BaseCell(rows, columns));
@@ -84,19 +82,17 @@ namespace Battleship_2.ViewModels
 
             BaseCell lastOpenedCell = gameManager.AiLastOpenedCell;
             indexOfCell = lastOpenedCell.Y * 10 + lastOpenedCell.X;
-            AiField[indexOfCell].IsOpen = true;
-            if (AiField[indexOfCell].IsShipDeck)
-                AiField[indexOfCell].IsShipDestroyed = gameManager.AiFleet
+            RightField[indexOfCell].IsOpen = true;
+            if (RightField[indexOfCell].IsShipDeck)
+                RightField[indexOfCell].IsShipDestroyed = gameManager.AiFleet
                     .GetShip(gameManager.AiField[lastOpenedCell.X, lastOpenedCell.Y].ShipsGuids.First()).IsDestroyed;
 
             lastOpenedCell = gameManager.PlayerLastOpenedCell;
             indexOfCell = lastOpenedCell.Y * 10 + lastOpenedCell.X;
-            PlayerField[indexOfCell].IsOpen = true;
-            if (PlayerField[indexOfCell].IsShipDeck)
-                PlayerField[indexOfCell].IsShipDestroyed = gameManager.PlayerFleet
+            LeftField[indexOfCell].IsOpen = true;
+            if (LeftField[indexOfCell].IsShipDeck)
+                LeftField[indexOfCell].IsShipDestroyed = gameManager.PlayerFleet
                     .GetShip(gameManager.PlayerField[lastOpenedCell.X, lastOpenedCell.Y].ShipsGuids.First()).IsDestroyed;
-
-            IsShootAllowed = true;
         }
 
         private void SetProperty<T>(ref T oldValue, T newValue, string propertyName)

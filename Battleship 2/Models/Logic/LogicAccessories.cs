@@ -11,7 +11,7 @@ namespace Battleship_2.Models.Logic
         public static readonly int NumberOfFieldColumns = 10;
 
         public static readonly Predicate<BaseCell> FieldBoundsCheck =
-            (c => c.X > 0 || c.Y > 0 || c.X <= NumberOfFieldRows || c.Y <= NumberOfFieldColumns);
+            (c => c.X >= 0 && c.Y >= 0 && c.X < NumberOfFieldColumns && c.Y < NumberOfFieldRows);
 
         private delegate BaseCell Get(int x, int y);
         public static List<BaseCell> GetfNearbyCells(int x, int y)
@@ -85,7 +85,7 @@ namespace Battleship_2.Models.Logic
         private static Random random = new Random();
         public static BaseCell GetRandomCoordinates()
         {
-            return new BaseCell(random.Next(NumberOfFieldRows), NumberOfFieldColumns);
+            return new BaseCell(random.Next(NumberOfFieldColumns), random.Next(NumberOfFieldRows));
         }
 
         public static bool GetNextCell_IfValid(BaseCell cell, OrientationsEnum direction, out BaseCell? nextCell)

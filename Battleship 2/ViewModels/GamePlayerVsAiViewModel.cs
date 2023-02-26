@@ -17,31 +17,30 @@ namespace Battleship_2.ViewModels
         public GamePlayerVsAiViewModel()
         {
             gameManager = new PlayerVsAiGameManagerViewModel();
-            openMenuCommand = new AutoEventCommandBase(o => o.ToString(), _ => true);
+            openMenuCommand = new AutoEventCommandBase(o => Array.Reverse(new[] { 1 }), _ => true);
             shootCommand = new AutoEventCommandBase(o => Shoot(o), _ => IsShootAllowed);
-            isShootAllowed = true;
+            IsShootAllowed = true;
         }
 
         private void Shoot(object o)
         {
-            IsShootAllowed = false;
+            IsShootAllowed= false;
             gameManager.ShootCommand.Execute(o);
             IsShootAllowed= true;
-        }
-
-        public bool IsShootAllowed
-        {
-            get => isShootAllowed;
-            set
-            {
-                isShootAllowed = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsShootAllowed)));
-            }
         }
 
         public IGameManagerViewModel GameManager => gameManager;
         public AutoEventCommandBase OpenMenuCommand => openMenuCommand;
         public AutoEventCommandBase ShootCommand => shootCommand;
+        public bool IsShootAllowed
+        {
+            get => isShootAllowed;
+            set
+            {
+                isShootAllowed= value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsShootAllowed)));
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
     }

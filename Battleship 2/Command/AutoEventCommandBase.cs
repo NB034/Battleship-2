@@ -14,9 +14,12 @@ namespace Battleship_2.Command
             _predicate = predicate;
         }
 
-        public bool CanExecute(object? parameter) => _predicate(parameter);
+#pragma warning disable CS8604 // Possible null reference argument is safe here.
 
+        public bool CanExecute(object? parameter) => _predicate(parameter);
         public void Execute(object? parameter) => _action(parameter);
+
+#pragma warning restore CS8604 // Possible null reference argument.
 
         public event EventHandler? CanExecuteChanged
         {

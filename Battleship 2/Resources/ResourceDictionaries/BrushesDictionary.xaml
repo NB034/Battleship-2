@@ -2,7 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <SolidColorBrush x:Key="BackgroundBrush" Color="#99000000"/>
-    <SolidColorBrush x:Key="MainStyleColor" Color="SteelBlue"/>
+    <SolidColorBrush x:Key="MainStyleBrush" Color="SteelBlue"/>
+
+    <SolidColorBrush x:Key="OpenCellBrush" Color="Blue"/>
+    <SolidColorBrush x:Key="DamagedShipCellBrush" Color="Yellow"/>
+    <SolidColorBrush x:Key="DestroyedShipBrush" Color="Red"/>
 
     <LinearGradientBrush x:Key="TitleLinearGradient" EndPoint="0,1">
         <GradientStop Color="#FF4C58A9"/>

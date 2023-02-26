@@ -55,12 +55,14 @@ namespace Battleship_2.Models.Logic
 
         private bool CanPlaceShip(BaseCell firstCell, OrientationsEnum orientation, int numberOfCells)
         {
+            int x = firstCell.X;
+            int y = firstCell.Y;
             for (int i = 0; i < numberOfCells; i++)
             {
-                if (!IsCellAllowed(firstCell)) return false;
+                if (!IsCellAllowed(new BaseCell(x,y))) return false;
 
-                if (orientation == OrientationsEnum.Right) firstCell.X++;
-                else if (orientation == OrientationsEnum.Down) firstCell.Y++;
+                if (orientation == OrientationsEnum.Right) x++;
+                else if (orientation == OrientationsEnum.Down) y++;
             }
             return true;
         }

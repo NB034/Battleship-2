@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Battleship_2.ViewModels
 {
-    internal class CellViewModel : INotifyPropertyChanged
+    public class CellViewModel : INotifyPropertyChanged
     {
         private bool isOpen;
         private bool isShipDeck;

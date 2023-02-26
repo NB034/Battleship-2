@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="Resources/ResourceDictionaries/StringsDictionary.xaml"/>
                 <ResourceDictionary Source="Resources/ResourceDictionaries/TemplatesDictionary.xaml"/>
                 <ResourceDictionary Source="Resources/ResourceDictionaries/StylesDictionary.xaml"/>
+                <ResourceDictionary Source="Resources/ResourceDictionaries/ConvertersDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
