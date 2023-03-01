@@ -18,7 +18,7 @@ namespace Battleship_2.ViewModels
         {
             gameManager = new PlayerVsAiGameManagerViewModel();
             openMenuCommand = new AutoEventCommandBase(o => Array.Reverse(new[] { 1 }), _ => true);
-            shootCommand = new AutoEventCommandBase(o => Shoot(o), _ => IsShootAllowed);
+            shootCommand = new AutoEventCommandBase(o => Shoot(o), o => !((CellViewModel)o).IsOpen && IsShootAllowed);
             IsShootAllowed = true;
         }
 

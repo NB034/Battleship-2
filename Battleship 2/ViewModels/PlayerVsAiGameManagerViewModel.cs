@@ -20,13 +20,23 @@ namespace Battleship_2.ViewModels
 
         private IShipsGridViewModel aiShips;
         private IShipsGridViewModel playerShips;
+        private List<CellViewModel> leftField;
+        private List<CellViewModel> rightField;
 
         private AutoEventCommandBase shootCommand;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ObservableCollection<CellViewModel> LeftField { get; private set; }
-        public ObservableCollection<CellViewModel> RightField { get; private set; }
+        public List<CellViewModel> LeftField
+        {
+            get => leftField;
+            private set => SetProperty(ref leftField, value, nameof(leftField));
+        }
+        public List<CellViewModel> RightField
+        {
+            get => rightField;
+            private set => SetProperty(ref rightField, value, nameof(rightField));
+        }
 
         public IShipsGridViewModel RightFieldShips
         {
@@ -44,28 +54,18 @@ namespace Battleship_2.ViewModels
         public PlayerVsAiGameManagerViewModel()
         {
             var autoPlacer = new ShipsAutoPlacer();
-            var aiField = new AiFieldManager(autoPlacer.GenerateField());
-            var playerField = new PlayerFieldManager(autoPlacer.GenerateField());
-            gameManager = new PlayerVsAiGameManager(aiField, playerField);
+            var aiFieldManager = new AiFieldManager(autoPlacer.GenerateField());
+            var playerFieldManager = new PlayerFieldManager(autoPlacer.GenerateField());
+            gameManager = new PlayerVsAiGameManager(aiFieldManager, playerFieldManager);
 
             ShipsImagesManager imagesManager = new ShipsImagesManager();
             playerShips = new ShipsGridViewModel(imagesManager.GetFirstShipsSet(), gameManager.PlayerFleet, OrientationsEnum.Left);
             aiShips = new ShipsGridViewModel(imagesManager.GetSecondShipsSet(), gameManager.AiFleet, OrientationsEnum.Right);
 
-            var playerCellsList = new List<CellViewModel>(100);
-            var aiCellsList = new List<CellViewModel>(100);
-
-            for (int i = 0; i < LogicAccessories.NumberOfFieldRows; i++)
-            {
-                for (int j = 0; j < LogicAccessories.NumberOfFieldColumns; j++)
-                {
-                    playerCellsList.Add(new CellViewModel(gameManager.PlayerField[i, j].CellType == CellTypesEnum.ShipDeck));
-                    aiCellsList.Add(new CellViewModel(gameManager.AiField[i, j].CellType == CellTypesEnum.ShipDeck));
-                }
-            }
-
-            LeftField = new ObservableCollection<CellViewModel>(playerCellsList);
-            RightField = new ObservableCollection<CellViewModel>(aiCellsList);
+            leftField = new List<CellViewModel>();
+            rightField = new List<CellViewModel>();
+            RefresfFields();
+            gameManager.FieldChanged += RefresfFields;
 
             shootCommand = new AutoEventCommandBase(o => Shoot((CellViewModel)o), _ => true);
         }
@@ -75,24 +75,47 @@ namespace Battleship_2.ViewModels
             int indexOfCell = RightField.IndexOf(cell);
             int rows = indexOfCell / LogicAccessories.NumberOfFieldRows;
             int columns = indexOfCell % LogicAccessories.NumberOfFieldColumns;
-            gameManager.PlayerTurn(new BaseCell(rows, columns));
+            gameManager.PlayerTurn(new BaseCell(columns, rows));
 
             aiShips.RefreshState(gameManager.AiFleet);
             playerShips.RefreshState(gameManager.PlayerFleet);
 
-            BaseCell lastOpenedCell = gameManager.AiLastOpenedCell;
-            indexOfCell = lastOpenedCell.Y * 10 + lastOpenedCell.X;
-            RightField[indexOfCell].IsOpen = true;
-            if (RightField[indexOfCell].IsShipDeck)
-                RightField[indexOfCell].IsShipDestroyed = gameManager.AiFleet
-                    .GetShip(gameManager.AiField[lastOpenedCell.X, lastOpenedCell.Y].ShipsGuids.First()).IsDestroyed;
+            RefresfFields();
+        }
 
-            lastOpenedCell = gameManager.PlayerLastOpenedCell;
-            indexOfCell = lastOpenedCell.Y * 10 + lastOpenedCell.X;
-            LeftField[indexOfCell].IsOpen = true;
-            if (LeftField[indexOfCell].IsShipDeck)
-                LeftField[indexOfCell].IsShipDestroyed = gameManager.PlayerFleet
-                    .GetShip(gameManager.PlayerField[lastOpenedCell.X, lastOpenedCell.Y].ShipsGuids.First()).IsDestroyed;
+        private void RefresfFields()
+        {
+            int totalNumberOfCells = LogicAccessories.NumberOfFieldRows * LogicAccessories.NumberOfFieldColumns;
+            var playerCellsList = new List<CellViewModel>(totalNumberOfCells);
+            var aiCellsList = new List<CellViewModel>(totalNumberOfCells);
+
+            for (int i = 0; i < LogicAccessories.NumberOfFieldRows; i++)
+            {
+                for (int j = 0; j < LogicAccessories.NumberOfFieldColumns; j++)
+                {
+                    var playerCell = new CellViewModel(gameManager.PlayerField[i, j].CellType == CellTypesEnum.ShipDeck)
+                    {
+                        IsOpen = gameManager.PlayerField[i, j].IsOpen
+                    };
+                    if (playerCell.IsShipDeck)
+                    {
+                        playerCell.IsShipDestroyed = gameManager.PlayerFleet.GetShip(gameManager.PlayerField[i, j].ShipsGuids.First()).IsDestroyed;
+                    }
+                    playerCellsList.Add(playerCell);
+
+                    var aiCell = new CellViewModel(gameManager.AiField[i, j].CellType == CellTypesEnum.ShipDeck)
+                    {
+                        IsOpen = gameManager.AiField[i, j].IsOpen
+                    };
+                    if (aiCell.IsShipDeck)
+                    {
+                        aiCell.IsShipDestroyed = gameManager.AiFleet.GetShip(gameManager.AiField[i, j].ShipsGuids.First()).IsDestroyed;
+                    }
+                    aiCellsList.Add(aiCell);
+                }
+            }
+            LeftField = playerCellsList;
+            RightField = aiCellsList;
         }
 
         private void SetProperty<T>(ref T oldValue, T newValue, string propertyName)

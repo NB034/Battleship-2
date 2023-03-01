@@ -43,7 +43,7 @@ namespace Battleship_2.Models.Logic
             }
 
             _hasFoundShip = true;
-            _nextShotDirection = null;
+            _nextShotDirection = LogicAccessories.GetRandomDirectionAsNumber();
             _firstFoundedCell = coordinates;
             _lastFoundedCell = coordinates;
         }

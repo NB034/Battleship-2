@@ -17,13 +17,13 @@ namespace Battleship_2.Accessories
         {
             CellViewModel viewModel = (CellViewModel)value;
             if (!viewModel.IsOpen) 
-                return Application.Current.Resources["BackgroundBrush"] as SolidColorBrush ?? new SolidColorBrush();
+                return Application.Current.Resources["BackgroundBrush"] as SolidColorBrush ?? Brushes.Black;
             if (viewModel.IsOpen && !viewModel.IsShipDeck)
-                return Application.Current.Resources["OpenCellBrush"] as SolidColorBrush ?? new SolidColorBrush();
+                return Application.Current.Resources["OpenCellBrush"] as SolidColorBrush ?? Brushes.Blue;
             if (viewModel.IsShipDeck && !viewModel.IsShipDestroyed) 
-                return Application.Current.Resources["DamagedShipCellBrush"] as SolidColorBrush ?? new SolidColorBrush();
+                return Application.Current.Resources["DamagedShipCellBrush"] as SolidColorBrush ?? Brushes.Yellow;
 
-            return Application.Current.Resources["DestroyedShipBrush"] as SolidColorBrush ?? new SolidColorBrush();
+            return Application.Current.Resources["DestroyedShipBrush"] as SolidColorBrush ?? Brushes.Red;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

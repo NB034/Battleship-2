@@ -8,27 +8,30 @@ namespace Battleship_2.Models.Logic
     {
         private readonly AiFieldManager aiFieldManager;
         private readonly PlayerFieldManager playerFieldManager;
+        public event Action? FieldChanged;
 
         public PlayerVsAiGameManager(AiFieldManager aiFieldManager, PlayerFieldManager playerFieldManager)
         {
             this.aiFieldManager = aiFieldManager;
             this.playerFieldManager = playerFieldManager;
-            AiTurnDelayInMilliseconds = 1000;
+            AiTurnDelayInMilliseconds = 0;
         }
 
         public BaseCell AiLastOpenedCell => aiFieldManager.LastOpenedCell;
         public BaseCell PlayerLastOpenedCell => playerFieldManager.LastOpenedCell;
-        public Fleet AiFleet => aiFieldManager.Field.Fleet;
-        public Fleet PlayerFleet => playerFieldManager.Field.Fleet;
-        public Cell[,] AiField => aiFieldManager.Field.Cells;
-        public Cell[,] PlayerField => playerFieldManager.Field.Cells;
+        public Fleet AiFleet => playerFieldManager.Field.Fleet;
+        public Fleet PlayerFleet => aiFieldManager.Field.Fleet;
+        public Cell[,] AiField => playerFieldManager.Field.Cells;
+        public Cell[,] PlayerField => aiFieldManager.Field.Cells;
         public Int64 AiTurnDelayInMilliseconds { get; set; }
 
         public void PlayerTurn(BaseCell cell)
         {
             playerFieldManager.Shoot(cell);
+            FieldChanged?.Invoke();
             Delay();
             aiFieldManager.Shoot();
+            FieldChanged?.Invoke();
         }
 
         private void Delay()
@@ -43,7 +46,7 @@ namespace Battleship_2.Models.Logic
             }
         }
 
-        public bool IsPlayerWin => aiFieldManager.Field.Fleet.IsDestroyed;
-        public bool IsAiWin => playerFieldManager.Field.Fleet.IsDestroyed;
+        public bool IsPlayerWin => playerFieldManager.Field.Fleet.IsDestroyed;
+        public bool IsAiWin => aiFieldManager.Field.Fleet.IsDestroyed;
     }
 }

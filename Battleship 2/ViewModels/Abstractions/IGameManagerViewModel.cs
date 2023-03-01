@@ -12,8 +12,8 @@ namespace Battleship_2.ViewModels.Abstractions
     {
         public IShipsGridViewModel LeftFieldShips { get; }
         public IShipsGridViewModel RightFieldShips { get; }
-        public ObservableCollection<CellViewModel> LeftField { get; }
-        public ObservableCollection<CellViewModel> RightField { get; }
+        public List<CellViewModel> LeftField { get; }
+        public List<CellViewModel> RightField { get; }
         public AutoEventCommandBase ShootCommand { get; }
     }
 }

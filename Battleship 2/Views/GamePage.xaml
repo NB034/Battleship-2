@@ -27,7 +27,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border BorderBrush="{StaticResource MainStyleBrush}" BorderThickness="1" CornerRadius="3" 
-                            Background="{Binding ., Converter={StaticResource CellToBrushConverter}}" Width="30" Height="30"/>
+                            Background="{Binding Converter={StaticResource CellToBrushConverter}}" Width="30" Height="30"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
@@ -46,7 +46,7 @@
             <ItemsControl ItemsSource="{Binding GameManager.RightField}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Button Style="{StaticResource FieldButtonStyle}" Background="{Binding Converter={StaticResource CellToBrushConverter}}"
+                        <Button Style="{StaticResource FieldButtonStyle}"
                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page}, Path=DataContext.ShootCommand}"
                             CommandParameter="{Binding}"/>
                     </DataTemplate>

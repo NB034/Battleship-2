@@ -3,4 +3,5 @@
                     xmlns:a="clr-namespace:Battleship_2.Accessories">
 
     <a:CellStateToBrushConverter x:Key="CellToBrushConverter"/>
+    <a:TestCellStateToBrushConverter x:Key="TestConverter"/>
 </ResourceDictionary>

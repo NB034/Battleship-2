@@ -9,7 +9,7 @@ namespace Battleship_2.Models.Components
         public int NumberOfDecks => Cells.Count;
         public List<Cell> Cells { get; set; }
         public Guid ShipGuid { get; }
-        public bool IsDestroyed => Cells.Any(c => !c.IsOpen);
+        public bool IsDestroyed => !Cells.Any(c => !c.IsOpen);
         public OrientationsEnum Orientation { get; }
 
         public Ship(OrientationsEnum orientation) : this(new List<Cell>(), orientation) { }

@@ -15,6 +15,7 @@ namespace Battleship_2.ViewModels
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public CellViewModel() : this(false) { }
         public CellViewModel(bool isShipDeck)
         {
             this.isShipDeck = isShipDeck;

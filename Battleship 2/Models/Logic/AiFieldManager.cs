@@ -38,7 +38,7 @@ namespace Battleship_2.Models.Logic
             while (true)
             {
                 BaseCell randomCell = LogicAccessories.GetRandomCoordinates();
-                Cell fieldCell = field.Cells[randomCell.X, randomCell.Y];
+                Cell fieldCell = field.Cells[randomCell.Y, randomCell.X];
                 if (!fieldCell.IsOpen)
                 {
                     fieldCell.IsOpen = true;
@@ -50,7 +50,12 @@ namespace Battleship_2.Models.Logic
                     }
                     else if (fieldCell.CellType == CellTypesEnum.ShipDeck)
                     {
+                        core.ShipWasDestroyed();
                         LogicAccessories.OpenCellsAroundDestroyedShip(ref field, fieldCell.ShipsGuids.First());
+                    }
+                    else
+                    {
+                        core.Miss();
                     }
                     return fieldCell.Base;
                 }
@@ -62,7 +67,7 @@ namespace Battleship_2.Models.Logic
             if (core.LastFoundedCell != null && core.NextShotDirection != null)
             {
                 BaseCell? nextCell;
-                while (LogicAccessories.GetNextCell_IfValid(core.LastFoundedCell, core.NextShotDirection.Value, out nextCell))
+                while (!LogicAccessories.GetNextCell_IfValid(core.LastFoundedCell, core.NextShotDirection.Value, out nextCell))
                 {
                     core.Miss();
                 }
@@ -70,7 +75,7 @@ namespace Battleship_2.Models.Logic
                 if (nextCell != null)
                 {
                     field.OpenCell(nextCell);
-                    Cell fieldCell = field.Cells[nextCell.X, nextCell.Y];
+                    Cell fieldCell = field.Cells[nextCell.Y, nextCell.X];
 
                     if (fieldCell.CellType == CellTypesEnum.ShipDeck
                         && !field.Fleet.GetShip(fieldCell.ShipsGuids.First()).IsDestroyed)
