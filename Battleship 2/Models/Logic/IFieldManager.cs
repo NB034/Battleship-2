@@ -10,6 +10,5 @@ namespace Battleship_2.Models.Logic
     public interface IFieldManager
     {
         Field Field { get; }
-        BaseCell LastOpenedCell { get; }
     }
 }

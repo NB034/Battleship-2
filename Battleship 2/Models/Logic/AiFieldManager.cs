@@ -9,36 +9,33 @@ namespace Battleship_2.Models.Logic
     {
         private AiCore core;
         private Field field;
-        private BaseCell lastOpenedCell;
 
         public Field Field => field;
-        public BaseCell LastOpenedCell => lastOpenedCell;
 
         public AiFieldManager(Field field)
         {
             core = new AiCore();
             this.field = field;
-            lastOpenedCell = BaseCell.NotValid;
         }
 
-        public void Shoot()
+        public bool Shoot()
         {
             if (core.HasFoundShip)
             {
-                lastOpenedCell = DestroyShip();
+                return DestroyShip();
             }
             else
             {
-                lastOpenedCell = FindTarget();
+                return FindTarget();
             }
         }
 
-        private BaseCell FindTarget()
+        private bool FindTarget()
         {
             while (true)
             {
                 BaseCell randomCell = LogicAccessories.GetRandomCoordinates();
-                Cell fieldCell = field.Cells[randomCell.Y, randomCell.X];
+                Cell fieldCell = field.Cells[randomCell.I, randomCell.J];
                 if (!fieldCell.IsOpen)
                 {
                     fieldCell.IsOpen = true;
@@ -47,22 +44,24 @@ namespace Battleship_2.Models.Logic
                         && !field.Fleet.GetShip(fieldCell.ShipsGuids.First()).IsDestroyed)
                     {
                         core.ShipWasDamaged(randomCell);
+                        return true;
                     }
                     else if (fieldCell.CellType == CellTypesEnum.ShipDeck)
                     {
                         core.ShipWasDestroyed();
                         LogicAccessories.OpenCellsAroundDestroyedShip(ref field, fieldCell.ShipsGuids.First());
+                        return true;
                     }
                     else
                     {
                         core.Miss();
+                        return false;
                     }
-                    return fieldCell.Base;
                 }
             }
         }
 
-        private BaseCell DestroyShip()
+        private bool DestroyShip()
         {
             if (core.LastFoundedCell != null && core.NextShotDirection != null)
             {
@@ -75,26 +74,27 @@ namespace Battleship_2.Models.Logic
                 if (nextCell != null)
                 {
                     field.OpenCell(nextCell);
-                    Cell fieldCell = field.Cells[nextCell.Y, nextCell.X];
+                    Cell fieldCell = field.Cells[nextCell.I, nextCell.J];
 
                     if (fieldCell.CellType == CellTypesEnum.ShipDeck
                         && !field.Fleet.GetShip(fieldCell.ShipsGuids.First()).IsDestroyed)
                     {
                         core.ShipWasDamaged(nextCell);
+                        return true;
                     }
                     else if (fieldCell.CellType == CellTypesEnum.ShipDeck)
                     {
                         core.ShipWasDestroyed();
                         LogicAccessories.OpenCellsAroundDestroyedShip(ref field, fieldCell.ShipsGuids.First());
+                        return true;
                     }
                     else
                     {
                         core.Miss();
+                        return false;
                     }
-                    return fieldCell.Base;
                 }
             }
-
             throw new AiException("Ai core data has null");
         }
     }

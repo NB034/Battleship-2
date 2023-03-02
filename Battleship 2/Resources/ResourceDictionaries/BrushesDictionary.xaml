@@ -3,10 +3,10 @@
 
     <SolidColorBrush x:Key="BackgroundBrush" Color="#99000000"/>
     <SolidColorBrush x:Key="MainStyleBrush" Color="SteelBlue"/>
-
-    <SolidColorBrush x:Key="OpenCellBrush" Color="Blue"/>
-    <SolidColorBrush x:Key="DamagedShipCellBrush" Color="Yellow"/>
-    <SolidColorBrush x:Key="DestroyedShipBrush" Color="Red"/>
+    <SolidColorBrush x:Key="MouseOverCellBrush" Color="#CC414ADA"/>
+    <SolidColorBrush x:Key="OpenCellBrush" Color="#CC0045A3"/>
+    <SolidColorBrush x:Key="DamagedShipCellBrush" Color="#CCC2CC00"/>
+    <SolidColorBrush x:Key="DestroyedShipBrush" Color="#CCA60505"/>
 
     <LinearGradientBrush x:Key="TitleLinearGradient" EndPoint="0,1">
         <GradientStop Color="#FF4C58A9"/>

@@ -11,7 +11,7 @@ namespace Battleship_2.Models.Logic
         public static readonly int NumberOfFieldColumns = 10;
 
         public static readonly Predicate<BaseCell> FieldBoundsCheck =
-            (c => c.X >= 0 && c.Y >= 0 && c.X < NumberOfFieldColumns && c.Y < NumberOfFieldRows);
+            (c => c.J >= 0 && c.I >= 0 && c.J < NumberOfFieldColumns && c.I < NumberOfFieldRows);
 
         private delegate BaseCell Get(int x, int y);
         public static List<BaseCell> GetfNearbyCells(int x, int y)
@@ -42,7 +42,7 @@ namespace Battleship_2.Models.Logic
 
         public static List<BaseCell> GetfNearbyCells(BaseCell cell)
         {
-            return GetfNearbyCells(cell.X, cell.Y);
+            return GetfNearbyCells(cell.J, cell.I);
         }
 
         public static OrientationsEnum GetRandomDirection()
@@ -93,16 +93,16 @@ namespace Battleship_2.Models.Logic
             switch (direction)
             {
                 case OrientationsEnum.Left:
-                    nextCell = new BaseCell(cell.X - 1, cell.Y);
+                    nextCell = new BaseCell(cell.J - 1, cell.I);
                     break;
                 case OrientationsEnum.Right:
-                    nextCell = new BaseCell(cell.X + 1, cell.Y);
+                    nextCell = new BaseCell(cell.J + 1, cell.I);
                     break;
                 case OrientationsEnum.Up:
-                    nextCell = new BaseCell(cell.X, cell.Y - 1);
+                    nextCell = new BaseCell(cell.J, cell.I - 1);
                     break;
                 case OrientationsEnum.Down:
-                    nextCell = new BaseCell(cell.X, cell.Y + 1);
+                    nextCell = new BaseCell(cell.J, cell.I + 1);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction));

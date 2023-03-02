@@ -74,19 +74,19 @@ namespace Battleship_2.ViewModels
 
                     shipViewModel.ColumnSpan = fleetShip.Cells.Count;
 
-                    int x = fleetShip.Cells.Select(cell => cell.X).Min();
-                    rootCell = fleetShip.Cells.Where(cell => cell.X == x).First();
+                    int x = fleetShip.Cells.Select(cell => cell.J).Min();
+                    rootCell = fleetShip.Cells.Where(cell => cell.J == x).First();
                 }
                 else
                 {
                     shipViewModel.RowSpan = fleetShip.Cells.Count;
 
-                    int y = fleetShip.Cells.Select(cell => cell.Y).Min();
-                    rootCell = fleetShip.Cells.Where(cell => cell.Y == y).First();
+                    int y = fleetShip.Cells.Select(cell => cell.I).Min();
+                    rootCell = fleetShip.Cells.Where(cell => cell.I == y).First();
                 }
 
-                shipViewModel.Row = rootCell.X;
-                shipViewModel.Column = rootCell.Y;
+                shipViewModel.Row = rootCell.J;
+                shipViewModel.Column = rootCell.I;
 
                 shipViewModels[i] = shipViewModel;
             }

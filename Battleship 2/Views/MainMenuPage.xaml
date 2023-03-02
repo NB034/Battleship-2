@@ -33,6 +33,7 @@
                         Content="{StaticResource StartGame}" Command="{Binding StartGameCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=v:MainMenuPage}}"/>
                 <Button Style="{StaticResource MainMenuButtons}" Content="{StaticResource Exit}" Command="{Binding ExitCommand}"/>
+                <!--<TextBlock Width="100" Height="100" Margin="10" Background="#99A60505"/>-->
             </StackPanel>
         </Border>
     </Grid>

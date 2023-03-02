@@ -26,6 +26,6 @@ namespace Battleship_2.Models.Components
             ShipsGuids.Add(guid);
         }
 
-        public BaseCell Base => new BaseCell(X, Y);
+        public BaseCell Base => new BaseCell(J, I);
     }
 }

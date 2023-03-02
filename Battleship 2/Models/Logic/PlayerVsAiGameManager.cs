@@ -1,6 +1,7 @@
 ﻿using Battleship_2.Models.Components;
 using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Battleship_2.Models.Logic
 {
@@ -8,17 +9,19 @@ namespace Battleship_2.Models.Logic
     {
         private readonly AiFieldManager aiFieldManager;
         private readonly PlayerFieldManager playerFieldManager;
-        public event Action? FieldChanged;
+
+        public event Action? FieldsChanged;
+        public event Action? PlayerWin;
+        public event Action? AiWin;
+
 
         public PlayerVsAiGameManager(AiFieldManager aiFieldManager, PlayerFieldManager playerFieldManager)
         {
             this.aiFieldManager = aiFieldManager;
             this.playerFieldManager = playerFieldManager;
-            AiTurnDelayInMilliseconds = 0;
+            AiTurnDelayInMilliseconds = 300;
         }
 
-        public BaseCell AiLastOpenedCell => aiFieldManager.LastOpenedCell;
-        public BaseCell PlayerLastOpenedCell => playerFieldManager.LastOpenedCell;
         public Fleet AiFleet => playerFieldManager.Field.Fleet;
         public Fleet PlayerFleet => aiFieldManager.Field.Fleet;
         public Cell[,] AiField => playerFieldManager.Field.Cells;
@@ -27,11 +30,28 @@ namespace Battleship_2.Models.Logic
 
         public void PlayerTurn(BaseCell cell)
         {
-            playerFieldManager.Shoot(cell);
-            FieldChanged?.Invoke();
+            if (playerFieldManager.Shoot(cell))
+            {
+                FieldsChanged?.Invoke();
+                if (IsPlayerWin)
+                {
+                    PlayerWin?.Invoke();
+                }
+                return;
+            }
+            FieldsChanged?.Invoke();
+
             Delay();
-            aiFieldManager.Shoot();
-            FieldChanged?.Invoke();
+            while (aiFieldManager.Shoot())
+            {
+                FieldsChanged?.Invoke();
+                if (IsAiWin)
+                {
+                    AiWin?.Invoke();
+                }
+                Delay();
+            }
+            FieldsChanged?.Invoke();
         }
 
         private void Delay()

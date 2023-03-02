@@ -28,7 +28,7 @@ namespace Battleship_2.Models.Components
             Fleet = fleet;
             foreach (var cell in Fleet.GetAllShipsCells())
             {
-                Cells[cell.Y, cell.X] = cell;
+                Cells[cell.I, cell.J] = cell;
             }
         }
 
@@ -38,13 +38,13 @@ namespace Battleship_2.Models.Components
             for (int i = 0; i < ship.Cells.Count; i++)
             {
                 Cell cell = ship.Cells[i];
-                Cells[cell.Y, cell.X] = cell;
+                Cells[cell.I, cell.J] = cell;
             }
         }
 
         public void OpenCell(BaseCell cell)
         {
-            Cell fieldCell = Cells[cell.Y, cell.X];
+            Cell fieldCell = Cells[cell.I, cell.J];
             if (fieldCell.IsOpen) throw new ArgumentException("Cell was already open.");
             fieldCell.IsOpen = true;
         }
@@ -53,9 +53,9 @@ namespace Battleship_2.Models.Components
         {
             foreach (var cell in cells)
             {
-                if (!Cells[cell.Y, cell.X].IsOpen)
+                if (!Cells[cell.I, cell.J].IsOpen)
                 {
-                    Cells[cell.Y, cell.X].IsOpen = true;
+                    Cells[cell.I, cell.J].IsOpen = true;
                 }
             }
         }

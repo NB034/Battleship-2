@@ -76,9 +76,10 @@ namespace Battleship_2.Models.Logic
                 }
 
                 _isDirectionAvailable[_nextShotDirection.Value] = false;
-                if (_isDirectionAvailable[LogicAccessories.GetOppositeDirectionAsNumber(_nextShotDirection.Value)])
+                if (!_isDirectionAvailable[LogicAccessories.GetOppositeDirectionAsNumber(_nextShotDirection.Value)])
                     throw new AiException("AI checked every direction");
 
+                _lastFoundedCell = _firstFoundedCell;
                 _nextShotDirection = LogicAccessories.GetOppositeDirectionAsNumber(_nextShotDirection.Value);
             }
         }

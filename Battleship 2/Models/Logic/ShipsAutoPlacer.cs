@@ -40,13 +40,13 @@ namespace Battleship_2.Models.Logic
             var ship = new Ship(orientation);
             for (int i = 0; i < numberOfCells; i++)
             {
-                Cell cell = new Cell(firstCell.X, firstCell.Y, CellTypesEnum.ShipDeck);
+                Cell cell = new Cell(firstCell.J, firstCell.I, CellTypesEnum.ShipDeck);
                 cell.AddShipGuid(ship.ShipGuid);
                 ship.Cells.Add(cell);
-                field.Cells[firstCell.Y, firstCell.X] = cell;
+                field.Cells[firstCell.I, firstCell.J] = cell;
 
-                if (orientation == OrientationsEnum.Right) firstCell.X++;
-                else if (orientation == OrientationsEnum.Down) firstCell.Y++;
+                if (orientation == OrientationsEnum.Right) firstCell.J++;
+                else if (orientation == OrientationsEnum.Down) firstCell.I++;
             }
 
             field.AddShip(ref ship);
@@ -55,14 +55,14 @@ namespace Battleship_2.Models.Logic
 
         private bool CanPlaceShip(BaseCell firstCell, OrientationsEnum orientation, int numberOfCells)
         {
-            int x = firstCell.X;
-            int y = firstCell.Y;
+            int I = firstCell.I;
+            int J = firstCell.J;
             for (int i = 0; i < numberOfCells; i++)
             {
-                if (!IsCellAllowed(new BaseCell(x,y))) return false;
+                if (!IsCellAllowed(new BaseCell(J,I))) return false;
 
-                if (orientation == OrientationsEnum.Right) x++;
-                else if (orientation == OrientationsEnum.Down) y++;
+                if (orientation == OrientationsEnum.Right) J++;
+                else if (orientation == OrientationsEnum.Down) I++;
             }
             return true;
         }
@@ -70,7 +70,7 @@ namespace Battleship_2.Models.Logic
         private bool IsCellAllowed(BaseCell firstCell)
         {
             if (LogicAccessories.FieldBoundsCheck(firstCell)
-                && field.Cells[firstCell.Y, firstCell.X].CellType != CellTypesEnum.ShipDeck
+                && field.Cells[firstCell.I, firstCell.J].CellType != CellTypesEnum.ShipDeck
                 && IsNearCellsSatisfactory(firstCell))
                 return true;
 
@@ -81,7 +81,7 @@ namespace Battleship_2.Models.Logic
         {
             foreach (var cell in LogicAccessories.GetfNearbyCells(firstCell))
             {
-                if (field.Cells[cell.Y, cell.X].CellType == CellTypesEnum.ShipDeck) return false;
+                if (field.Cells[cell.I, cell.J].CellType == CellTypesEnum.ShipDeck) return false;
             }
             return true;
         }
@@ -90,9 +90,9 @@ namespace Battleship_2.Models.Logic
         {
             foreach (var shipCell in ship.Cells)
             {
-                foreach (var nearbyCell in LogicAccessories.GetfNearbyCells(shipCell.X, shipCell.Y))
+                foreach (var nearbyCell in LogicAccessories.GetfNearbyCells(shipCell.J, shipCell.I))
                 {
-                    Cell cell = field.Cells[nearbyCell.Y, nearbyCell.X];
+                    Cell cell = field.Cells[nearbyCell.I, nearbyCell.J];
                     if (cell.CellType != CellTypesEnum.ShipDeck)
                     {
                         cell.CellType = CellTypesEnum.NearTheShip;

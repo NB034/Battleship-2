@@ -17,13 +17,15 @@ using System.Windows.Shapes;
 namespace Battleship_2.Views
 {
     /// <summary>
-    /// Interaction logic for GamePage.xaml
+    /// Interaction logic for WinPage.xaml
     /// </summary>
-    public partial class GamePage : Page
+    public partial class WinPage : Page
     {
-        public GamePage()
+        public WinPage(WinPageViewModel winPageViewModel)
         {
             InitializeComponent();
+
+            DataContext = winPageViewModel;
         }
     }
 }

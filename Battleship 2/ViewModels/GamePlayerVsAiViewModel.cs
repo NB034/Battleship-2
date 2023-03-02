@@ -4,6 +4,7 @@ using Battleship_2.ViewModels.Abstractions;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Controls;
 
 namespace Battleship_2.ViewModels
 {
@@ -14,9 +15,9 @@ namespace Battleship_2.ViewModels
         private readonly AutoEventCommandBase shootCommand;
         private bool isShootAllowed;
 
-        public GamePlayerVsAiViewModel()
+        public GamePlayerVsAiViewModel(Page pageForNavigationService)
         {
-            gameManager = new PlayerVsAiGameManagerViewModel();
+            gameManager = new PlayerVsAiGameManagerViewModel(pageForNavigationService);
             openMenuCommand = new AutoEventCommandBase(o => Array.Reverse(new[] { 1 }), _ => true);
             shootCommand = new AutoEventCommandBase(o => Shoot(o), o => !((CellViewModel)o).IsOpen && IsShootAllowed);
             IsShootAllowed = true;

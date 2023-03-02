@@ -3,6 +3,7 @@ using Battleship_2.Command;
 using Battleship_2.Models.Components;
 using Battleship_2.Models.Logic;
 using Battleship_2.ViewModels.Abstractions;
+using Battleship_2.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +12,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Navigation;
 
 namespace Battleship_2.ViewModels
 {
@@ -22,7 +27,6 @@ namespace Battleship_2.ViewModels
         private IShipsGridViewModel playerShips;
         private List<CellViewModel> leftField;
         private List<CellViewModel> rightField;
-
         private AutoEventCommandBase shootCommand;
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -50,8 +54,9 @@ namespace Battleship_2.ViewModels
         }
 
         public AutoEventCommandBase ShootCommand => shootCommand;
+        public Page PageForNavigationService { get; set; }
 
-        public PlayerVsAiGameManagerViewModel()
+        public PlayerVsAiGameManagerViewModel(Page pageForNavigationService)
         {
             var autoPlacer = new ShipsAutoPlacer();
             var aiFieldManager = new AiFieldManager(autoPlacer.GenerateField());
@@ -65,9 +70,32 @@ namespace Battleship_2.ViewModels
             leftField = new List<CellViewModel>();
             rightField = new List<CellViewModel>();
             RefresfFields();
-            gameManager.FieldChanged += RefresfFields;
+
+            gameManager.FieldsChanged += RefresfFields;
+            gameManager.PlayerWin += NavigateToPlayerWinPage;
+            gameManager.AiWin += NavigateToAiWinPage;
 
             shootCommand = new AutoEventCommandBase(o => Shoot((CellViewModel)o), _ => true);
+            PageForNavigationService = pageForNavigationService;
+        }
+
+        private void NavigateToAiWinPage()
+        {
+            var viewModel = new WinPageViewModel(
+                Application.Current.Resources["PlayerLoseMessage"] as string ?? "Error",
+                Application.Current.Resources["TitleLinearGradient"] as Brush ?? Brushes.Gray);
+            var winPage = new WinPage(viewModel);
+            PageForNavigationService.NavigationService.Navigate(winPage);
+        }
+
+        private void NavigateToPlayerWinPage()
+        {
+            var viewModel = new WinPageViewModel(
+                Application.Current.Resources["PlayerWinMessage"] as string ?? "Error",
+                Application.Current.Resources["TitleLinearGradient"] as Brush ?? Brushes.Gray);
+            var winPage = new WinPage(viewModel);
+            PageForNavigationService.NavigationService.Navigate(winPage);
+            
         }
 
         private void Shoot(CellViewModel cell)
@@ -77,9 +105,12 @@ namespace Battleship_2.ViewModels
             int columns = indexOfCell % LogicAccessories.NumberOfFieldColumns;
             gameManager.PlayerTurn(new BaseCell(columns, rows));
 
-            aiShips.RefreshState(gameManager.AiFleet);
-            playerShips.RefreshState(gameManager.PlayerFleet);
+            RefresfView();
+        }
 
+        private void RefresfView()
+        {
+            aiShips.RefreshState(gameManager.AiFleet);
             RefresfFields();
         }
 

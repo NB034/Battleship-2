@@ -20,10 +20,11 @@ namespace Battleship_2.ViewModels
 
         private void StartGame(object parameter)
         {
-            if(parameter is MainMenuPage page)
+            if (parameter is MainMenuPage page)
             {
-                var viewModel = new GamePlayerVsAiViewModel();
-                var gamePage = new GamePage(viewModel);
+                var gamePage = new GamePage();
+                var viewModel = new GamePlayerVsAiViewModel(gamePage);
+                gamePage.DataContext = viewModel;
                 page.NavigationService.Navigate(gamePage);
             }
         }
