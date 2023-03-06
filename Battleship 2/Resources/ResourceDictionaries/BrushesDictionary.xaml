@@ -5,6 +5,7 @@
     <SolidColorBrush x:Key="MainStyleBrush" Color="SteelBlue"/>
     <SolidColorBrush x:Key="MouseOverCellBrush" Color="#CC414ADA"/>
     <SolidColorBrush x:Key="OpenCellBrush" Color="#CC0045A3"/>
+    <SolidColorBrush x:Key="ShipBrush" Color="#CC006200"/>
     <SolidColorBrush x:Key="DamagedShipCellBrush" Color="#CCC2CC00"/>
     <SolidColorBrush x:Key="DestroyedShipBrush" Color="#CCA60505"/>
 

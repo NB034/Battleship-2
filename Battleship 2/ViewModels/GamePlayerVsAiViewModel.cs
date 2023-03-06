@@ -8,41 +8,18 @@ using System.Windows.Controls;
 
 namespace Battleship_2.ViewModels
 {
-    internal class GamePlayerVsAiViewModel : IGamePageViewModel, INotifyPropertyChanged
+    internal class GamePlayerVsAiViewModel : IGamePageViewModel
     {
         private readonly IGameManagerViewModel gameManager;
         private readonly AutoEventCommandBase openMenuCommand;
-        private readonly AutoEventCommandBase shootCommand;
-        private bool isShootAllowed;
 
         public GamePlayerVsAiViewModel(Page pageForNavigationService)
         {
             gameManager = new PlayerVsAiGameManagerViewModel(pageForNavigationService);
             openMenuCommand = new AutoEventCommandBase(o => Array.Reverse(new[] { 1 }), _ => true);
-            shootCommand = new AutoEventCommandBase(o => Shoot(o), o => !((CellViewModel)o).IsOpen && IsShootAllowed);
-            IsShootAllowed = true;
-        }
-
-        private void Shoot(object o)
-        {
-            IsShootAllowed= false;
-            gameManager.ShootCommand.Execute(o);
-            IsShootAllowed= true;
         }
 
         public IGameManagerViewModel GameManager => gameManager;
         public AutoEventCommandBase OpenMenuCommand => openMenuCommand;
-        public AutoEventCommandBase ShootCommand => shootCommand;
-        public bool IsShootAllowed
-        {
-            get => isShootAllowed;
-            set
-            {
-                isShootAllowed= value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsShootAllowed)));
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }

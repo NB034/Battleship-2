@@ -9,7 +9,5 @@ namespace Battleship_2.ViewModels
     {
         IGameManagerViewModel GameManager { get; }
         AutoEventCommandBase OpenMenuCommand { get; }
-        AutoEventCommandBase ShootCommand { get; }
-        bool IsShootAllowed { get; }
     }
 }

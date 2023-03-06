@@ -12,6 +12,8 @@ namespace Battleship_2.Accessories
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             CellViewModel viewModel = (CellViewModel)value;
+            if (!viewModel.IsOpen && viewModel.IsShipDeck)
+                return Application.Current.Resources["ShipBrush"];
             if (!viewModel.IsOpen)
                 return Application.Current.Resources["BackgroundBrush"];
             if (viewModel.IsOpen && !viewModel.IsShipDeck)

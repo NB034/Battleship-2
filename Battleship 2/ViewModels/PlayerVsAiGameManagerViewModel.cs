@@ -69,14 +69,30 @@ namespace Battleship_2.ViewModels
 
             leftField = new List<CellViewModel>();
             rightField = new List<CellViewModel>();
-            RefresfFields();
+            RefreshFields();
 
-            gameManager.FieldsChanged += RefresfFields;
+            gameManager.FieldsChanged += RefreshView;
             gameManager.PlayerWin += NavigateToPlayerWinPage;
             gameManager.AiWin += NavigateToAiWinPage;
+            gameManager.IsTurnOverChanged += RefreshTurnState;
 
-            shootCommand = new AutoEventCommandBase(o => Shoot((CellViewModel)o), _ => true);
+            shootCommand = new AutoEventCommandBase(o => Shoot(o), o => CanShoot(o));
             PageForNavigationService = pageForNavigationService;
+        }
+
+        private void Shoot(object parameter)
+        {
+            var cell = (CellViewModel)parameter;
+            int indexOfCell = RightField.IndexOf(cell);
+            int rows = indexOfCell / LogicAccessories.NumberOfFieldRows;
+            int columns = indexOfCell % LogicAccessories.NumberOfFieldColumns;
+            Task.Run(() => gameManager.PlayerTurn(new BaseCell(columns, rows)));
+        }
+
+        private bool CanShoot(object parameter)
+        {
+            var cell = (CellViewModel)parameter;
+            return gameManager.IsTurnOver && !cell.IsOpen;
         }
 
         private void NavigateToAiWinPage()
@@ -95,26 +111,21 @@ namespace Battleship_2.ViewModels
                 Application.Current.Resources["TitleLinearGradient"] as Brush ?? Brushes.Gray);
             var winPage = new WinPage(viewModel);
             PageForNavigationService.NavigationService.Navigate(winPage);
-            
+
         }
 
-        private void Shoot(CellViewModel cell)
-        {
-            int indexOfCell = RightField.IndexOf(cell);
-            int rows = indexOfCell / LogicAccessories.NumberOfFieldRows;
-            int columns = indexOfCell % LogicAccessories.NumberOfFieldColumns;
-            gameManager.PlayerTurn(new BaseCell(columns, rows));
-
-            RefresfView();
-        }
-
-        private void RefresfView()
+        private void RefreshView()
         {
             aiShips.RefreshState(gameManager.AiFleet);
-            RefresfFields();
+            RefreshFields();
         }
 
-        private void RefresfFields()
+        private void RefreshTurnState()
+        {
+            CellViewModel.IsTurnOver = gameManager.IsTurnOver;
+        }
+
+        private void RefreshFields()
         {
             int totalNumberOfCells = LogicAccessories.NumberOfFieldRows * LogicAccessories.NumberOfFieldColumns;
             var playerCellsList = new List<CellViewModel>(totalNumberOfCells);
