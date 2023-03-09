@@ -39,15 +39,42 @@
             <Border Grid.Column="{Binding Decks_4.Column}" Grid.Row="{Binding Decks_4.Row}" 
                     Grid.ColumnSpan="{Binding Decks_4.ColumnSpan}" Grid.RowSpan="{Binding Decks_4.RowSpan}" 
                     IsEnabled="{Binding Decks_4.IsVisible}" Background="{Binding Decks_4.ShipImage}"/>
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
+
+            <!--<Border Grid.Column="{Binding Decks_3_Num_1.Column}" Grid.Row="{Binding Decks_3_Num_1.Row}" 
+                    Grid.ColumnSpan="{Binding Decks_3_Num_1.ColumnSpan}" Grid.RowSpan="{Binding Decks_3_Num_1.RowSpan}" 
+                    IsEnabled="{Binding Decks_3_Num_1.IsVisible}" Background="{Binding Decks_3_Num_1.ShipImage}"/>
+
+            <Border Grid.Column="{Binding Decks_3_Num_2.Column}" Grid.Row="{Binding Decks_3_Num_2.Row}" 
+                    Grid.ColumnSpan="{Binding Decks_3_Num_2.ColumnSpan}" Grid.RowSpan="{Binding Decks_3_Num_2.RowSpan}" 
+                    IsEnabled="{Binding Decks_3_Num_2.IsVisible}" Background="{Binding Decks_3_Num_2.ShipImage}"/>
+
+            <Border Grid.Column="{Binding Decks_2_Num_1.Column}" Grid.Row="{Binding Decks_2_Num_1.Row}" 
+                    Grid.ColumnSpan="{Binding Decks_2_Num_1.ColumnSpan}" Grid.RowSpan="{Binding Decks_2_Num_1.RowSpan}" 
+                    IsEnabled="{Binding Decks_2_Num_1.IsVisible}" Background="{Binding Decks_2_Num_1.ShipImage}"/>
+
+            <Border Grid.Column="{Binding Decks_2_Num_2.Column}" Grid.Row="{Binding Decks_2_Num_2.Row}" 
+                    Grid.ColumnSpan="{Binding Decks_2_Num_2.ColumnSpan}" Grid.RowSpan="{Binding Decks_2_Num_2.RowSpan}" 
+                    IsEnabled="{Binding Decks_2_Num_2.IsVisible}" Background="{Binding Decks_2_Num_2.ShipImage}"/>
+
+            <Border Grid.Column="{Binding Decks_2_Num_3.Column}" Grid.Row="{Binding Decks_2_Num_3.Row}" 
+                    Grid.ColumnSpan="{Binding Decks_2_Num_3.ColumnSpan}" Grid.RowSpan="{Binding Decks_2_Num_3.RowSpan}" 
+                    IsEnabled="{Binding Decks_2_Num_3.IsVisible}" Background="{Binding Decks_2_Num_3.ShipImage}"/>-->
+
+            <!--<Border Grid.Column="{Binding Decks_1_Num_1.Column}" Grid.Row="{Binding Decks_1_Num_1.Row}" 
+                    Grid.ColumnSpan="{Binding Decks_1_Num_1.ColumnSpan}" Grid.RowSpan="{Binding Decks_1_Num_1.RowSpan}" 
+                    IsEnabled="{Binding Decks_1_Num_1.IsVisible}" Background="{Binding Decks_1_Num_1.ShipImage}"/>
+
+            <Border Grid.Column="{Binding Decks_1_Num_2.Column}" Grid.Row="{Binding Decks_1_Num_2.Row}" 
+                    Grid.ColumnSpan="{Binding Decks_1_Num_2.ColumnSpan}" Grid.RowSpan="{Binding Decks_1_Num_2.RowSpan}" 
+                    IsEnabled="{Binding Decks_1_Num_2.IsVisible}" Background="{Binding Decks_1_Num_2.ShipImage}"/>
+
+            <Border Grid.Column="{Binding Decks_1_Num_3.Column}" Grid.Row="{Binding Decks_1_Num_3.Row}" 
+                    Grid.ColumnSpan="{Binding Decks_1_Num_3.ColumnSpan}" Grid.RowSpan="{Binding Decks_1_Num_3.RowSpan}" 
+                    IsEnabled="{Binding Decks_1_Num_3.IsVisible}" Background="{Binding Decks_1_Num_3.ShipImage}"/>
+
+            <Border Grid.Column="{Binding Decks_1_Num_4.Column}" Grid.Row="{Binding Decks_1_Num_4.Row}" 
+                    Grid.ColumnSpan="{Binding Decks_1_Num_4.ColumnSpan}" Grid.RowSpan="{Binding Decks_1_Num_4.RowSpan}" 
+                    IsEnabled="{Binding Decks_31_Num_4.IsVisible}" Background="{Binding Decks_1_Num_4.ShipImage}"/>-->
 
         </Grid>
     </ContentControl>

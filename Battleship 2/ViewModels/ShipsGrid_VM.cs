@@ -43,8 +43,9 @@ namespace Battleship_2.ViewModels
 
         public IShip_VM Decks_1_Num_4 => shipViewModels[9];
 
-        public ShipsGrid_VM(Image[] images, Fleet fleet, OrientationsEnum gridLocation)
+        public ShipsGrid_VM(ImageBrush[] images, Fleet fleet, OrientationsEnum gridLocation)
         {
+            images = images.Reverse().ToArray();
             if (images.Length != 4)
                 throw new ArgumentException("Wrong number of images");
             if (gridLocation == OrientationsEnum.Up || gridLocation == OrientationsEnum.Down)
@@ -61,7 +62,7 @@ namespace Battleship_2.ViewModels
 
             for (int i = 0; i < shipViewModels.Length; i++)
             {
-                var shipImage = images[decks[i] - 1];
+                var shipImageBrush = images[decks[i] - 1];
                 var shipViewModel = new Ship_VM();
                 var fleetShip = fleet.Ships[i];
 
@@ -72,9 +73,15 @@ namespace Battleship_2.ViewModels
                 if (fleetShip.Orientation == OrientationsEnum.Left || fleetShip.Orientation == OrientationsEnum.Right)
                 {
                     if (gridLocation == OrientationsEnum.Left)
-                        shipImage.RenderTransform = new RotateTransform(90);
+                        shipViewModel.ShipImage = new ImageBrush(shipImageBrush.ImageSource)
+                        {
+                            Transform = new RotateTransform(90)
+                        };
                     if (gridLocation == OrientationsEnum.Right)
-                        shipImage.RenderTransform = new RotateTransform(270);
+                        shipViewModel.ShipImage = new ImageBrush(shipImageBrush.ImageSource)
+                        {
+                            Transform = new RotateTransform(270)
+                        };
 
                     shipViewModel.ColumnSpan = fleetShip.Cells.Count;
 
@@ -89,13 +96,7 @@ namespace Battleship_2.ViewModels
                     rootCell = fleetShip.Cells.Where(cell => cell.I == y).First();
                 }
 
-                //
-
-                
-
-                //
-
-                //shipViewModel.ShipImage = shipImage;
+                shipViewModel.ShipImage = shipImageBrush;
 
                 shipViewModel.Row = rootCell.J;
                 shipViewModel.Column = rootCell.I;
@@ -106,7 +107,7 @@ namespace Battleship_2.ViewModels
 
         public void RefreshState(Fleet fleet)
         {
-            if(location == OrientationsEnum.Right)
+            if (location == OrientationsEnum.Right)
             {
                 var ships = fleet.Ships;
                 for (int i = 0; i < ships.Count; i++)

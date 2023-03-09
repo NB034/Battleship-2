@@ -12,7 +12,7 @@
       WindowHeight="500" WindowWidth="800"
       d:DataContext="{d:DesignInstance Type=vm:IGamePage_VM}"
       Background="{StaticResource Background_1}">
-
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

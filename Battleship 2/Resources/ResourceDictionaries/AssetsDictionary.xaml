@@ -19,25 +19,57 @@
               StrokeEndLineCap="flat"
               StrokeLineJoin="miter"/>
     </Canvas>
+    
+    
 
-    <Image x:Key="Fleet1Ship1" Source="../../Resources/Assets/Fleet 1 - Ship 1.png"/>
-    <Image x:Key="Fleet1Ship2" Source="../../Resources/Assets/Fleet 1 - Ship 2.png"/>
-    <Image x:Key="Fleet1Ship3" Source="../../Resources/Assets/Fleet 1 - Ship 3.png"/>
-    <Image x:Key="Fleet1Ship4" Source="../../Resources/Assets/Fleet 1 - Ship 4.png"/>
+    <ImageBrush x:Key="Fleet1Ship1">
+        <ImageBrush.ImageSource>
+            <BitmapImage UriSource="../../Resources/Assets/Fleet 1 - Ship 1.png" />
+        </ImageBrush.ImageSource>
+    </ImageBrush>
 
-    <Image x:Key="Fleet2Ship1" Source="../../Resources/Assets/Fleet 2 - Ship 1.png"/>
-    <Image x:Key="Fleet2Ship2" Source="../../Resources/Assets/Fleet 2 - Ship 2.png"/>
-    <Image x:Key="Fleet2Ship3" Source="../../Resources/Assets/Fleet 2 - Ship 3.png"/>
-    <Image x:Key="Fleet2Ship4" Source="../../Resources/Assets/Fleet 2 - Ship 4.png"/>
+    <ImageBrush x:Key="Fleet1Ship2">
+        <ImageBrush.ImageSource>
+            <BitmapImage UriSource="../../Resources/Assets/Fleet 1 - Ship 2.png"/>
+        </ImageBrush.ImageSource>
+    </ImageBrush>
 
-    <!--<ImageBrush x:Key="Fleet1Ship1" ImageSource="../../Resources/Assets/Fleet 1 - Ship 1.png"/>
-    <ImageBrush x:Key="Fleet1Ship2" ImageSource="../../Resources/Assets/Fleet 1 - Ship 2.png"/>
-    <ImageBrush x:Key="Fleet1Ship3" ImageSource="../../Resources/Assets/Fleet 1 - Ship 3.png"/>
-    <ImageBrush x:Key="Fleet1Ship4" ImageSource="../../Resources/Assets/Fleet 1 - Ship 4.png"/>
-                                    
-    <ImageBrush x:Key="Fleet2Ship1" ImageSource="../../Resources/Assets/Fleet 2 - Ship 1.png"/>
-    <ImageBrush x:Key="Fleet2Ship2" ImageSource="../../Resources/Assets/Fleet 2 - Ship 2.png"/>
-    <ImageBrush x:Key="Fleet2Ship3" ImageSource="../../Resources/Assets/Fleet 2 - Ship 3.png"/>
-    <ImageBrush x:Key="Fleet2Ship4" ImageSource="../../Resources/Assets/Fleet 2 - Ship 4.png"/>-->
+    <ImageBrush x:Key="Fleet1Ship3">
+        <ImageBrush.ImageSource>
+            <BitmapImage UriSource="../../Resources/Assets/Fleet 1 - Ship 3.png"/>
+        </ImageBrush.ImageSource>
+    </ImageBrush>
+    
+    <ImageBrush x:Key="Fleet1Ship4">
+        <ImageBrush.ImageSource>
+            <BitmapImage UriSource="../../Resources/Assets/Fleet 1 - Ship 4.png"/>
+        </ImageBrush.ImageSource>
+    </ImageBrush>
+
+    
+    
+    <ImageBrush x:Key="Fleet2Ship1">
+        <ImageBrush.ImageSource>
+            <BitmapImage UriSource="../../Resources/Assets/Fleet 2 - Ship 1.png" />
+        </ImageBrush.ImageSource>
+    </ImageBrush>
+
+    <ImageBrush x:Key="Fleet2Ship2">
+        <ImageBrush.ImageSource>
+            <BitmapImage UriSource="../../Resources/Assets/Fleet 2 - Ship 2.png"/>
+        </ImageBrush.ImageSource>
+    </ImageBrush>
+
+    <ImageBrush x:Key="Fleet2Ship3">
+        <ImageBrush.ImageSource>
+            <BitmapImage UriSource="../../Resources/Assets/Fleet 2 - Ship 3.png"/>
+        </ImageBrush.ImageSource>
+    </ImageBrush>
+
+    <ImageBrush x:Key="Fleet2Ship4">
+        <ImageBrush.ImageSource>
+            <BitmapImage UriSource="../../Resources/Assets/Fleet 2 - Ship 4.png"/>
+        </ImageBrush.ImageSource>
+    </ImageBrush>
 
 </ResourceDictionary>
