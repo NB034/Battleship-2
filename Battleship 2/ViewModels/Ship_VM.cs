@@ -1,17 +1,22 @@
 ﻿using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Battleship_2.ViewModels
 {
-    public class ShipViewModel : IShipViewModel
+    public class Ship_VM : IShip_VM
     {
-        public Image ShipImage { get; set; }
+        public ImageBrush ShipImage { get; set; }
         public int Row { get; set; } = 0;
         public int Column { get; set; } = 0;
         public int RowSpan { get; set; } = 1;
         public int ColumnSpan { get; set; } = 1;
         public bool IsVisible { get; set; } = false;
 
-        public ShipViewModel(Image shipImage)
+        public Ship_VM()
+        {
+            ShipImage = new ImageBrush();
+        }
+        public Ship_VM(ImageBrush shipImage)
         {
             ShipImage = shipImage;
         }

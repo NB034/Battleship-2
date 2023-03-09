@@ -21,7 +21,7 @@ namespace Battleship_2.Views
     /// </summary>
     public partial class WinPage : Page
     {
-        public WinPage(WinPageViewModel winPageViewModel)
+        public WinPage(WinPage_VM winPageViewModel)
         {
             InitializeComponent();
 

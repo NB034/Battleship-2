@@ -7,23 +7,20 @@ using System.Threading.Tasks;
 
 namespace Battleship_2.ViewModels
 {
-    public class CellViewModel
+    public class Cell_VM
     {
-        public CellViewModel() : this(false) { }
-        public CellViewModel(bool isShipDeck)
+        public Cell_VM() : this(false) { }
+        public Cell_VM(bool isShipDeck)
         {
             IsShipDeck = isShipDeck;
             IsOpen = false;
             IsShipDestroyed = false;
-        }
-        static CellViewModel()
-        {
-            IsTurnOver = true;
+            IsCellActive = true;
         }
 
         public bool IsOpen { get; set; }
         public bool IsShipDeck { get; set; }
         public bool IsShipDestroyed { get; set; }
-        public static bool IsTurnOver { get; set; }
+        public bool IsCellActive { get; set; }
     }
 }

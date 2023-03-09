@@ -11,11 +11,11 @@
       xmlns:v="clr-namespace:Battleship_2.Views"
       WindowTitle="Battleship 2" 
       WindowHeight="500" WindowWidth="800"
-      d:DataContext="{d:DesignInstance Type=vm:MainMenuPageViewModel}"
+      d:DataContext="{d:DesignInstance Type=vm:MainPage_VM}"
       Background="{StaticResource Background_1}">
 
     <Page.DataContext>
-        <vm:MainMenuPageViewModel/>
+        <vm:MainPage_VM/>
     </Page.DataContext>
 
     <Grid>

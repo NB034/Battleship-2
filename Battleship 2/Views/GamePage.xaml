@@ -10,7 +10,7 @@
       xmlns:vm="clr-namespace:Battleship_2.ViewModels"
       WindowTitle="Battleship 2" 
       WindowHeight="500" WindowWidth="800"
-      d:DataContext="{d:DesignInstance Type=vm:IGamePageViewModel}"
+      d:DataContext="{d:DesignInstance Type=vm:IGamePage_VM}"
       Background="{StaticResource Background_1}">
 
     <Grid>
@@ -37,9 +37,13 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
 
-            <!--<ContentControl Background="Transparent" DataContext="{Binding LeftShips}">
+            <ContentControl Background="Transparent" DataContext="{Binding GameManager.LeftFieldShips}">
                 <StaticResource ResourceKey="ShipsGridTemplate"/>
-            </ContentControl>-->
+            </ContentControl>
+
+            <ContentControl Background="Transparent" DataContext="{Binding GameManager.LeftFieldShips}">
+                <StaticResource ResourceKey="ShipsGridTemplate"/>
+            </ContentControl>
         </Grid>
 
         <Grid Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,30,30,0">
@@ -73,9 +77,9 @@
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
 
-            <!--<ContentControl Background="Transparent" DataContext="{Binding RightShips}">
+            <ContentControl Background="Transparent" DataContext="{Binding GameManager.RightFieldShips}">
                 <StaticResource ResourceKey="ShipsGridTemplate"/>
-            </ContentControl>-->
+            </ContentControl>
         </Grid>
     </Grid>
 </Page>

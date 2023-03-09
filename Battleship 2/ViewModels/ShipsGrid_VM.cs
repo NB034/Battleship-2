@@ -8,39 +8,42 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Battleship_2.ViewModels
 {
-    class ShipsGridViewModel : IShipsGridViewModel, INotifyPropertyChanged
+    class ShipsGrid_VM : IShipsGrid_VM, INotifyPropertyChanged
     {
-        private IShipViewModel[] shipViewModels;
-        private OrientationsEnum location;
+        private readonly IShip_VM[] shipViewModels;
+        private readonly OrientationsEnum location;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public IShipViewModel Decks_4 => shipViewModels[0];
+        public IShip_VM Decks_4 => shipViewModels[0];
 
-        public IShipViewModel Decks_3_Num_1 => shipViewModels[1];
+        public IShip_VM Decks_3_Num_1 => shipViewModels[1];
 
-        public IShipViewModel Decks_3_Num_2 => shipViewModels[2];
+        public IShip_VM Decks_3_Num_2 => shipViewModels[2];
 
-        public IShipViewModel Decks_2_Num_1 => shipViewModels[3];
+        public IShip_VM Decks_2_Num_1 => shipViewModels[3];
 
-        public IShipViewModel Decks_2_Num_2 => shipViewModels[4];
+        public IShip_VM Decks_2_Num_2 => shipViewModels[4];
 
-        public IShipViewModel Decks_2_Num_3 => shipViewModels[5];
+        public IShip_VM Decks_2_Num_3 => shipViewModels[5];
 
-        public IShipViewModel Decks_1_Num_1 => shipViewModels[6];
+        public IShip_VM Decks_1_Num_1 => shipViewModels[6];
 
-        public IShipViewModel Decks_1_Num_2 => shipViewModels[7];
+        public IShip_VM Decks_1_Num_2 => shipViewModels[7];
 
-        public IShipViewModel Decks_1_Num_3 => shipViewModels[8];
+        public IShip_VM Decks_1_Num_3 => shipViewModels[8];
 
-        public IShipViewModel Decks_1_Num_4 => shipViewModels[9];
+        public IShip_VM Decks_1_Num_4 => shipViewModels[9];
 
-        public ShipsGridViewModel(Image[] images, Fleet fleet, OrientationsEnum gridLocation)
+        public ShipsGrid_VM(Image[] images, Fleet fleet, OrientationsEnum gridLocation)
         {
             if (images.Length != 4)
                 throw new ArgumentException("Wrong number of images");
@@ -54,11 +57,12 @@ namespace Battleship_2.ViewModels
                 throw new ShipsGridViewModelException("Class [ShipsGridViewModel] can only be used when " +
                     "[LogicAccessories.NumberOfShipsDecks.Length] equals 10");
 
-            shipViewModels = new ShipViewModel[decks.Length];
+            shipViewModels = new Ship_VM[decks.Length];
 
             for (int i = 0; i < shipViewModels.Length; i++)
             {
-                var shipViewModel = new ShipViewModel(images[decks[i] - 1]);
+                var shipImage = images[decks[i] - 1];
+                var shipViewModel = new Ship_VM();
                 var fleetShip = fleet.Ships[i];
 
                 if (gridLocation == OrientationsEnum.Left) shipViewModel.IsVisible = true;
@@ -68,9 +72,9 @@ namespace Battleship_2.ViewModels
                 if (fleetShip.Orientation == OrientationsEnum.Left || fleetShip.Orientation == OrientationsEnum.Right)
                 {
                     if (gridLocation == OrientationsEnum.Left)
-                        shipViewModel.ShipImage.RenderTransform = new RotateTransform(90);
+                        shipImage.RenderTransform = new RotateTransform(90);
                     if (gridLocation == OrientationsEnum.Right)
-                        shipViewModel.ShipImage.RenderTransform = new RotateTransform(270);
+                        shipImage.RenderTransform = new RotateTransform(270);
 
                     shipViewModel.ColumnSpan = fleetShip.Cells.Count;
 
@@ -84,6 +88,14 @@ namespace Battleship_2.ViewModels
                     int y = fleetShip.Cells.Select(cell => cell.I).Min();
                     rootCell = fleetShip.Cells.Where(cell => cell.I == y).First();
                 }
+
+                //
+
+                
+
+                //
+
+                //shipViewModel.ShipImage = shipImage;
 
                 shipViewModel.Row = rootCell.J;
                 shipViewModel.Column = rootCell.I;

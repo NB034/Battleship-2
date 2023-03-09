@@ -11,70 +11,62 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 
 namespace Battleship_2.ViewModels
 {
-    internal class PlayerVsAiGameManagerViewModel : INotifyPropertyChanged, IGameManagerViewModel
+    internal class PVA_GameManager_VM : INotifyPropertyChanged, IGameManager_VM
     {
-        private PlayerVsAiGameManager gameManager;
-
-        private IShipsGridViewModel aiShips;
-        private IShipsGridViewModel playerShips;
-        private List<CellViewModel> leftField;
-        private List<CellViewModel> rightField;
-        private AutoEventCommandBase shootCommand;
+        private PVA_GameManager gameManager;
+        private List<Cell_VM> leftField;
+        private List<Cell_VM> rightField;
+        private readonly AutoEventCommandBase shootCommand;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public List<CellViewModel> LeftField
+        public List<Cell_VM> LeftField
         {
             get => leftField;
-            private set => SetProperty(ref leftField, value, nameof(leftField));
+            private set => SetProperty(ref leftField, value, nameof(LeftField));
         }
-        public List<CellViewModel> RightField
+        public List<Cell_VM> RightField
         {
             get => rightField;
-            private set => SetProperty(ref rightField, value, nameof(rightField));
+            private set => SetProperty(ref rightField, value, nameof(RightField));
         }
 
-        public IShipsGridViewModel RightFieldShips
-        {
-            get => aiShips;
-            private set => SetProperty(ref aiShips, value, nameof(RightFieldShips));
-        }
-        public IShipsGridViewModel LeftFieldShips
-        {
-            get => playerShips;
-            private set => SetProperty(ref playerShips, value, nameof(LeftFieldShips));
-        }
+        public IShipsGrid_VM RightFieldShips { get; }
+        public IShipsGrid_VM LeftFieldShips { get; }
 
         public AutoEventCommandBase ShootCommand => shootCommand;
         public Page PageForNavigationService { get; set; }
 
-        public PlayerVsAiGameManagerViewModel(Page pageForNavigationService)
+        public PVA_GameManager_VM(Page pageForNavigationService)
         {
             var autoPlacer = new ShipsAutoPlacer();
             var aiFieldManager = new AiFieldManager(autoPlacer.GenerateField());
             var playerFieldManager = new PlayerFieldManager(autoPlacer.GenerateField());
-            gameManager = new PlayerVsAiGameManager(aiFieldManager, playerFieldManager);
+            gameManager = new PVA_GameManager(aiFieldManager, playerFieldManager);
 
             ShipsImagesManager imagesManager = new ShipsImagesManager();
-            playerShips = new ShipsGridViewModel(imagesManager.GetFirstShipsSet(), gameManager.PlayerFleet, OrientationsEnum.Left);
-            aiShips = new ShipsGridViewModel(imagesManager.GetSecondShipsSet(), gameManager.AiFleet, OrientationsEnum.Right);
+            LeftFieldShips = new ShipsGrid_VM(imagesManager.GetFirstShipsSet(), gameManager.PlayerFleet, OrientationsEnum.Left);
+            RightFieldShips = new ShipsGrid_VM(imagesManager.GetSecondShipsSet(), gameManager.AiFleet, OrientationsEnum.Right);
 
-            leftField = new List<CellViewModel>();
-            rightField = new List<CellViewModel>();
-            RefreshFields();
+            leftField = new List<Cell_VM>();
+            rightField = new List<Cell_VM>();
+            RefreshLeftField();
+            RefreshRightField();
 
-            gameManager.FieldsChanged += RefreshView;
             gameManager.PlayerWin += NavigateToPlayerWinPage;
             gameManager.AiWin += NavigateToAiWinPage;
-            gameManager.IsTurnOverChanged += RefreshTurnState;
+            gameManager.PlayerFieldChanged += RefreshLeftField;
+            gameManager.AiFieldChanged += RefreshRightField;
 
             shootCommand = new AutoEventCommandBase(o => Shoot(o), o => CanShoot(o));
             PageForNavigationService = pageForNavigationService;
@@ -82,60 +74,55 @@ namespace Battleship_2.ViewModels
 
         private void Shoot(object parameter)
         {
-            var cell = (CellViewModel)parameter;
+            var cell = (Cell_VM)parameter;
             int indexOfCell = RightField.IndexOf(cell);
             int rows = indexOfCell / LogicAccessories.NumberOfFieldRows;
             int columns = indexOfCell % LogicAccessories.NumberOfFieldColumns;
-            Task.Run(() => gameManager.PlayerTurn(new BaseCell(columns, rows)));
+            Task.Run(() => gameManager.PlayerShoot(new BaseCell(columns, rows)));
         }
 
         private bool CanShoot(object parameter)
         {
-            var cell = (CellViewModel)parameter;
-            return gameManager.IsTurnOver && !cell.IsOpen;
+            var cell = (Cell_VM)parameter;
+            return !cell.IsOpen && cell.IsCellActive;
         }
 
         private void NavigateToAiWinPage()
         {
-            var viewModel = new WinPageViewModel(
+            PageForNavigationService.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                (ThreadStart)delegate ()
+                {
+                    var viewModel = new WinPage_VM(
                 Application.Current.Resources["PlayerLoseMessage"] as string ?? "Error",
                 Application.Current.Resources["TitleLinearGradient"] as Brush ?? Brushes.Gray);
-            var winPage = new WinPage(viewModel);
-            PageForNavigationService.NavigationService.Navigate(winPage);
+                    var winPage = new WinPage(viewModel);
+                    PageForNavigationService.NavigationService.Navigate(winPage);
+                });
         }
 
         private void NavigateToPlayerWinPage()
         {
-            var viewModel = new WinPageViewModel(
-                Application.Current.Resources["PlayerWinMessage"] as string ?? "Error",
-                Application.Current.Resources["TitleLinearGradient"] as Brush ?? Brushes.Gray);
-            var winPage = new WinPage(viewModel);
-            PageForNavigationService.NavigationService.Navigate(winPage);
-
+            PageForNavigationService.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+                (ThreadStart)delegate ()
+                {
+                    var viewModel = new WinPage_VM(
+                    Application.Current.Resources["PlayerWinMessage"] as string ?? "Error",
+                    Application.Current.Resources["TitleLinearGradient"] as Brush ?? Brushes.Gray);
+                    var winPage = new WinPage(viewModel);
+                    PageForNavigationService.NavigationService.Navigate(winPage);
+                });
         }
 
-        private void RefreshView()
-        {
-            aiShips.RefreshState(gameManager.AiFleet);
-            RefreshFields();
-        }
-
-        private void RefreshTurnState()
-        {
-            CellViewModel.IsTurnOver = gameManager.IsTurnOver;
-        }
-
-        private void RefreshFields()
+        private void RefreshLeftField()
         {
             int totalNumberOfCells = LogicAccessories.NumberOfFieldRows * LogicAccessories.NumberOfFieldColumns;
-            var playerCellsList = new List<CellViewModel>(totalNumberOfCells);
-            var aiCellsList = new List<CellViewModel>(totalNumberOfCells);
+            var playerCellsList = new List<Cell_VM>(totalNumberOfCells);
 
             for (int i = 0; i < LogicAccessories.NumberOfFieldRows; i++)
             {
                 for (int j = 0; j < LogicAccessories.NumberOfFieldColumns; j++)
                 {
-                    var playerCell = new CellViewModel(gameManager.PlayerField[i, j].CellType == CellTypesEnum.ShipDeck)
+                    var playerCell = new Cell_VM(gameManager.PlayerField[i, j].CellType == CellTypesEnum.ShipDeck)
                     {
                         IsOpen = gameManager.PlayerField[i, j].IsOpen
                     };
@@ -144,10 +131,25 @@ namespace Battleship_2.ViewModels
                         playerCell.IsShipDestroyed = gameManager.PlayerFleet.GetShip(gameManager.PlayerField[i, j].ShipsGuids.First()).IsDestroyed;
                     }
                     playerCellsList.Add(playerCell);
+                }
+            }
+            LeftField = playerCellsList;
+        }
 
-                    var aiCell = new CellViewModel(gameManager.AiField[i, j].CellType == CellTypesEnum.ShipDeck)
+        private void RefreshRightField()
+        {
+            int totalNumberOfCells = LogicAccessories.NumberOfFieldRows * LogicAccessories.NumberOfFieldColumns;
+            var aiCellsList = new List<Cell_VM>(totalNumberOfCells);
+
+            for (int i = 0; i < LogicAccessories.NumberOfFieldRows; i++)
+            {
+                for (int j = 0; j < LogicAccessories.NumberOfFieldColumns; j++)
+                {
+
+                    var aiCell = new Cell_VM(gameManager.AiField[i, j].CellType == CellTypesEnum.ShipDeck)
                     {
-                        IsOpen = gameManager.AiField[i, j].IsOpen
+                        IsOpen = gameManager.AiField[i, j].IsOpen,
+                        IsCellActive = gameManager.IsPlayerTurn
                     };
                     if (aiCell.IsShipDeck)
                     {
@@ -156,8 +158,9 @@ namespace Battleship_2.ViewModels
                     aiCellsList.Add(aiCell);
                 }
             }
-            LeftField = playerCellsList;
             RightField = aiCellsList;
+
+            RightFieldShips.RefreshState(gameManager.AiFleet);
         }
 
         private void SetProperty<T>(ref T oldValue, T newValue, string propertyName)

@@ -5,9 +5,9 @@ using System.Collections.ObjectModel;
 
 namespace Battleship_2.ViewModels
 {
-    public interface IGamePageViewModel
+    public interface IGamePage_VM
     {
-        IGameManagerViewModel GameManager { get; }
+        IGameManager_VM GameManager { get; }
         AutoEventCommandBase OpenMenuCommand { get; }
     }
 }

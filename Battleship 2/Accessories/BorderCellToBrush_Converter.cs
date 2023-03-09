@@ -7,11 +7,11 @@ using System.Windows.Media;
 
 namespace Battleship_2.Accessories
 {
-    internal class CellStateToBrushConverter : IValueConverter
+    internal class BorderCellToBrush_Converter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            CellViewModel viewModel = (CellViewModel)value;
+            Cell_VM viewModel = (Cell_VM)value;
             if (!viewModel.IsOpen && viewModel.IsShipDeck)
                 return Application.Current.Resources["ShipBrush"];
             if (!viewModel.IsOpen)

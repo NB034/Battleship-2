@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Battleship_2.ViewModels
 {
-    public interface IShipViewModel
+    public interface IShip_VM
     {
-        Image ShipImage { get; set; }
+        ImageBrush ShipImage { get; set; }
         Int32 Row { get; set; }
         Int32 Column { get; set; }
         Int32 RowSpan { get; set; }

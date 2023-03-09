@@ -4,12 +4,12 @@ using System.Windows;
 
 namespace Battleship_2.ViewModels
 {
-    public class MainMenuPageViewModel
+    public class MainPage_VM
     {
         private readonly AutoEventCommandBase _exitCommand;
         private readonly AutoEventCommandBase _startGameCommand;
 
-        public MainMenuPageViewModel()
+        public MainPage_VM()
         {
             _startGameCommand = new AutoEventCommandBase(o => StartGame(o), _ => true);
             _exitCommand = new AutoEventCommandBase(_ => Exit(), _ => true);
@@ -23,7 +23,7 @@ namespace Battleship_2.ViewModels
             if (parameter is MainMenuPage page)
             {
                 var gamePage = new GamePage();
-                var viewModel = new GamePlayerVsAiViewModel(gamePage);
+                var viewModel = new PVA_GamePage_VM(gamePage);
                 gamePage.DataContext = viewModel;
                 page.NavigationService.Navigate(gamePage);
             }

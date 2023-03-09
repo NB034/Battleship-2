@@ -5,8 +5,10 @@
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:vm="clr-namespace:Battleship_2.ViewModels">
 
-    <ContentControl x:Key="ShipsGridTemplate" d:DataContext="{d:DesignInstance vm:IShipsGridViewModel}">
-        <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
+    <ContentControl x:Key="ShipsGridTemplate">
+        <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page},
+            Path=DataContext.GameManager.LeftFieldShips}"
+              d:DataContext="{d:DesignInstance vm:IShipsGrid_VM}">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -34,7 +36,9 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
+            <Border Grid.Column="{Binding Decks_4.Column}" Grid.Row="{Binding Decks_4.Row}" 
+                    Grid.ColumnSpan="{Binding Decks_4.ColumnSpan}" Grid.RowSpan="{Binding Decks_4.RowSpan}" 
+                    IsEnabled="{Binding Decks_4.IsVisible}" Background="{Binding Decks_4.ShipImage}"/>
             <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
             <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>
             <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Grid.RowSpan="1" IsEnabled="True"/>

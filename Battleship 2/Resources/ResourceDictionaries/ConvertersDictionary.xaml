@@ -2,6 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:a="clr-namespace:Battleship_2.Accessories">
 
-    <a:CellStateToBrushConverter x:Key="CellToBrushConverter"/>
-    <a:RightFieldCellToBrushConverter x:Key="RightFieldConverter"/>
+    <a:BorderCellToBrush_Converter x:Key="CellToBrushConverter"/>
+    <a:BorderLayerToBrush_Converter x:Key="RightFieldConverter"/>
 </ResourceDictionary>
