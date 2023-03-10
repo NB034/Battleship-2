@@ -1,20 +1,21 @@
 ﻿using Battleship_2.Exceptions;
 using Battleship_2.Models.Components;
+using Battleship_2.Models.Logic;
 using System;
 using System.Linq;
 
-namespace Battleship_2.Models.Logic
+namespace Battleship_2.Models.Ai
 {
-    internal class AiFieldManager : IFieldManager
+    internal class Obsolete_Ai_FieldManager : IFieldManager
     {
-        private AiCore core;
+        private Obsolete_Ai_Core core;
         private Field field;
 
         public Field Field => field;
 
-        public AiFieldManager(Field field)
+        public Obsolete_Ai_FieldManager(Field field)
         {
-            core = new AiCore();
+            core = new Obsolete_Ai_Core();
             this.field = field;
         }
 

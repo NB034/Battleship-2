@@ -43,65 +43,52 @@ namespace Battleship_2.ViewModels
 
         public IShip_VM Decks_1_Num_4 => shipViewModels[9];
 
-        public ShipsGrid_VM(ImageBrush[] images, Fleet fleet, OrientationsEnum gridLocation)
+        public ShipsGrid_VM(string[] shipImagesUri, Fleet fleet, OrientationsEnum gridLocation)
         {
-            images = images.Reverse().ToArray();
-            if (images.Length != 4)
-                throw new ArgumentException("Wrong number of images");
-            if (gridLocation == OrientationsEnum.Up || gridLocation == OrientationsEnum.Down)
-                throw new ArgumentException("Grid location can be only left or right");
             location = gridLocation;
-
             int[] decks = LogicAccessories.NumberOfShipsDecks;
-
-            if (decks.Length != 10)
-                throw new ShipsGridViewModelException("Class [ShipsGridViewModel] can only be used when " +
-                    "[LogicAccessories.NumberOfShipsDecks.Length] equals 10");
-
+            fleet.Ships.Sort((s1, s2) => s2.Cells.Count.CompareTo(s1.Cells.Count));
             shipViewModels = new Ship_VM[decks.Length];
+
+            if (shipImagesUri.Length != 4) throw new ArgumentException("Wrong number of images");
+            if (gridLocation == OrientationsEnum.Up || gridLocation == OrientationsEnum.Down) throw new ArgumentException("Grid location can be only left or right");
+            if (decks.Length != 10) throw new ShipsGridViewModelException("Class [ShipsGridViewModel] can only be used when [LogicAccessories.NumberOfShipsDecks.Length] equals 10");
 
             for (int i = 0; i < shipViewModels.Length; i++)
             {
-                var shipImageBrush = images[decks[i] - 1];
-                var shipViewModel = new Ship_VM();
+                var shipVm = new Ship_VM();
                 var fleetShip = fleet.Ships[i];
+                shipVm.ShipImageUri = shipImagesUri[decks[i] - 1];
+                //Cell rootCell;
 
-                if (gridLocation == OrientationsEnum.Left) shipViewModel.IsVisible = true;
-                if (gridLocation == OrientationsEnum.Right) shipViewModel.IsVisible = false;
+                if (gridLocation == OrientationsEnum.Left) shipVm.IsVisible = true;
+                if (gridLocation == OrientationsEnum.Right) shipVm.IsVisible = false;
 
-                Cell rootCell;
                 if (fleetShip.Orientation == OrientationsEnum.Left || fleetShip.Orientation == OrientationsEnum.Right)
                 {
-                    if (gridLocation == OrientationsEnum.Left)
-                        shipViewModel.ShipImage = new ImageBrush(shipImageBrush.ImageSource)
-                        {
-                            Transform = new RotateTransform(90)
-                        };
-                    if (gridLocation == OrientationsEnum.Right)
-                        shipViewModel.ShipImage = new ImageBrush(shipImageBrush.ImageSource)
-                        {
-                            Transform = new RotateTransform(270)
-                        };
+                    if (gridLocation == OrientationsEnum.Left) shipVm.Rotation = new RotateTransform(90);
+                    if (gridLocation == OrientationsEnum.Right) shipVm.Rotation = new RotateTransform(270);
 
-                    shipViewModel.ColumnSpan = fleetShip.Cells.Count;
+                    shipVm.ColumnSpan = fleetShip.Cells.Count;
+                    fleetShip.Cells.Sort((s1, s2) => s1.J.CompareTo(s2.J));
 
-                    int x = fleetShip.Cells.Select(cell => cell.J).Min();
-                    rootCell = fleetShip.Cells.Where(cell => cell.J == x).First();
+                    //int x = fleetShip.Cells.Select(cell => cell.J).Min();
+                    //rootCell = fleetShip.Cells.Where(cell => cell.J == x).First();
                 }
                 else
                 {
-                    shipViewModel.RowSpan = fleetShip.Cells.Count;
-
-                    int y = fleetShip.Cells.Select(cell => cell.I).Min();
-                    rootCell = fleetShip.Cells.Where(cell => cell.I == y).First();
+                    shipVm.RowSpan = fleetShip.Cells.Count;
+                    fleetShip.Cells.Sort((s1, s2) => s1.I.CompareTo(s2.I));
+                    //int y = fleetShip.Cells.Select(cell => cell.I).Min();
+                    //rootCell = fleetShip.Cells.Where(cell => cell.I == y).First();
                 }
+                //shipVm.Row = rootCell.J;
+                //shipVm.Column = rootCell.I;
 
-                shipViewModel.ShipImage = shipImageBrush;
+                shipVm.Row = fleetShip.Cells.First().I;
+                shipVm.Column = fleetShip.Cells.First().J;
 
-                shipViewModel.Row = rootCell.J;
-                shipViewModel.Column = rootCell.I;
-
-                shipViewModels[i] = shipViewModel;
+                shipViewModels[i] = shipVm;
             }
         }
 

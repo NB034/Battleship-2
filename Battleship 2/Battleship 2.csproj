@@ -10,6 +10,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Assets\Fleet 1 - Ship 1.png" />
+	  <None Remove="Resources\Assets\Fleet 1 - Ship 2.png" />
+	  <None Remove="Resources\Assets\Fleet 1 - Ship 3.png" />
+	  <None Remove="Resources\Assets\Fleet 1 - Ship 4.png" />
+	  <None Remove="Resources\Assets\Fleet 2 - Ship 1.png" />
+	  <None Remove="Resources\Assets\Fleet 2 - Ship 2.png" />
+	  <None Remove="Resources\Assets\Fleet 2 - Ship 3.png" />
+	  <None Remove="Resources\Assets\Fleet 2 - Ship 4.png" />
 	  <None Remove="Resources\Background_1.jpg" />
 	</ItemGroup>
 
@@ -23,5 +31,29 @@
 
 	<ItemGroup>
 	  <Resource Include="Resources\Assets\Background 1.jpg" />
+	  <Resource Include="Resources\Assets\Fleet 1 - Ship 1.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Assets\Fleet 1 - Ship 2.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Assets\Fleet 1 - Ship 3.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Assets\Fleet 1 - Ship 4.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Assets\Fleet 2 - Ship 1.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Assets\Fleet 2 - Ship 2.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Assets\Fleet 2 - Ship 3.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\Assets\Fleet 2 - Ship 4.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Resource>
 	</ItemGroup>
 </Project>

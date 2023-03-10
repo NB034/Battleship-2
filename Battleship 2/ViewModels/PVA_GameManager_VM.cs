@@ -2,6 +2,7 @@
 using Battleship_2.Command;
 using Battleship_2.Models.Components;
 using Battleship_2.Models.Logic;
+using Battleship_2.Models.Logic.Ai;
 using Battleship_2.ViewModels.Abstractions;
 using Battleship_2.Views;
 using System;
@@ -50,7 +51,7 @@ namespace Battleship_2.ViewModels
         public PVA_GameManager_VM(Page pageForNavigationService)
         {
             var autoPlacer = new ShipsAutoPlacer();
-            var aiFieldManager = new AiFieldManager(autoPlacer.GenerateField());
+            var aiFieldManager = new Ai_FieldManager(autoPlacer.GenerateField());
             var playerFieldManager = new PlayerFieldManager(autoPlacer.GenerateField());
             gameManager = new PVA_GameManager(aiFieldManager, playerFieldManager);
 

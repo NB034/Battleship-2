@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <ImageBrush x:Key="Background_1" ImageSource="../../Resources/Assets/Background 1.jpg" Stretch="UniformToFill"/>
 
@@ -19,10 +20,24 @@
               StrokeEndLineCap="flat"
               StrokeLineJoin="miter"/>
     </Canvas>
-    
-    
 
-    <ImageBrush x:Key="Fleet1Ship1">
+
+
+    <sys:String x:Key="Fleet_1_Ship_1_Uri">../../Resources/Assets/Fleet 1 - Ship 1.png</sys:String>
+    <sys:String x:Key="Fleet_1_Ship_2_Uri">../../Resources/Assets/Fleet 1 - Ship 2.png</sys:String>
+    <sys:String x:Key="Fleet_1_Ship_3_Uri">../../Resources/Assets/Fleet 1 - Ship 3.png</sys:String>
+    <sys:String x:Key="Fleet_1_Ship_4_Uri">../../Resources/Assets/Fleet 1 - Ship 4.png</sys:String>
+                                     
+    <sys:String x:Key="Fleet_2_Ship_1_Uri">../../Resources/Assets/Fleet 2 - Ship 1.png</sys:String>
+    <sys:String x:Key="Fleet_2_Ship_2_Uri">../../Resources/Assets/Fleet 2 - Ship 2.png</sys:String>
+    <sys:String x:Key="Fleet_2_Ship_3_Uri">../../Resources/Assets/Fleet 2 - Ship 3.png</sys:String>
+    <sys:String x:Key="Fleet_2_Ship_4_Uri">../../Resources/Assets/Fleet 2 - Ship 4.png</sys:String>
+
+
+
+
+
+    <!--<ImageBrush x:Key="Fleet1Ship1">
         <ImageBrush.ImageSource>
             <BitmapImage UriSource="../../Resources/Assets/Fleet 1 - Ship 1.png" />
         </ImageBrush.ImageSource>
@@ -70,6 +85,6 @@
         <ImageBrush.ImageSource>
             <BitmapImage UriSource="../../Resources/Assets/Fleet 2 - Ship 4.png"/>
         </ImageBrush.ImageSource>
-    </ImageBrush>
+    </ImageBrush>-->
 
 </ResourceDictionary>

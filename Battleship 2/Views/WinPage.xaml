@@ -9,7 +9,7 @@
       ShowsNavigationUI="False"
       xmlns:vm="clr-namespace:Battleship_2.ViewModels"
       WindowTitle="Battleship 2" 
-      WindowHeight="500" WindowWidth="800"
+      WindowHeight="600" WindowWidth="1000"
       d:DataContext="{d:DesignInstance Type=vm:WinPage_VM}"
       Background="{StaticResource Background_1}">
 

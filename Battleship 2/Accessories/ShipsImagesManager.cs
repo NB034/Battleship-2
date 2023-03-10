@@ -11,25 +11,25 @@ namespace Battleship_2.Accessories
 {
     public class ShipsImagesManager : IShipsImagesManager
     {
-        public ImageBrush[] GetFirstShipsSet()
+        public String[] GetFirstShipsSet()
         {
             return new[]
             {
-                Application.Current.Resources["Fleet1Ship4"] as ImageBrush ?? new ImageBrush(),
-                Application.Current.Resources["Fleet1Ship3"] as ImageBrush ?? new ImageBrush(),
-                Application.Current.Resources["Fleet1Ship2"] as ImageBrush ?? new ImageBrush(),
-                Application.Current.Resources["Fleet1Ship1"] as ImageBrush ?? new ImageBrush()
+                Application.Current.Resources["Fleet_1_Ship_1_Uri"] as string ?? "Error",
+                Application.Current.Resources["Fleet_1_Ship_2_Uri"] as string ?? "Error",
+                Application.Current.Resources["Fleet_1_Ship_3_Uri"] as string ?? "Error",
+                Application.Current.Resources["Fleet_1_Ship_4_Uri"] as string ?? "Error"
             };
         }
 
-        public ImageBrush[] GetSecondShipsSet()
+        public String[] GetSecondShipsSet()
         {
             return new[]
             {
-                Application.Current.Resources["Fleet2Ship4"] as ImageBrush ?? new ImageBrush(),
-                Application.Current.Resources["Fleet2Ship3"] as ImageBrush ?? new ImageBrush(),
-                Application.Current.Resources["Fleet2Ship2"] as ImageBrush ?? new ImageBrush(),
-                Application.Current.Resources["Fleet2Ship1"] as ImageBrush ?? new ImageBrush()
+                Application.Current.Resources["Fleet_2_Ship_1_Uri"] as string ?? "Error",
+                Application.Current.Resources["Fleet_2_Ship_2_Uri"] as string ?? "Error",
+                Application.Current.Resources["Fleet_2_Ship_3_Uri"] as string ?? "Error",
+                Application.Current.Resources["Fleet_2_Ship_4_Uri"] as string ?? "Error"
             };
         }
     }

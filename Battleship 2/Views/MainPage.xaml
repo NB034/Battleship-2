@@ -10,7 +10,8 @@
       xmlns:vm="clr-namespace:Battleship_2.ViewModels"
       xmlns:v="clr-namespace:Battleship_2.Views"
       WindowTitle="Battleship 2" 
-      WindowHeight="500" WindowWidth="800"
+      WindowHeight="600" WindowWidth="1000"
+      
       d:DataContext="{d:DesignInstance Type=vm:MainPage_VM}"
       Background="{StaticResource Background_1}">
 

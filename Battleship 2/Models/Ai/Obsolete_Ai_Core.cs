@@ -1,11 +1,12 @@
 ﻿using Battleship_2.Exceptions;
 using Battleship_2.Models.Components;
+using Battleship_2.Models.Logic;
 using System;
 using System.Linq;
 
-namespace Battleship_2.Models.Logic
+namespace Battleship_2.Models.Ai
 {
-    internal class AiCore
+    internal class Obsolete_Ai_Core
     {
         private bool _hasFoundShip;
         private bool[] _isDirectionAvailable;
@@ -18,7 +19,7 @@ namespace Battleship_2.Models.Logic
         public BaseCell? FirstFoundedCell => _firstFoundedCell;
         public BaseCell? LastFoundedCell => _lastFoundedCell;
 
-        public AiCore()
+        public Obsolete_Ai_Core()
         {
             _isDirectionAvailable = new bool[Enum.GetValues(typeof(OrientationsEnum)).Length];
             ResetMemory();
@@ -66,7 +67,7 @@ namespace Battleship_2.Models.Logic
                     while (true)
                     {
                         int direction = LogicAccessories.GetRandomDirectionAsNumber();
-                        if (_isDirectionAvailable[(direction)])
+                        if (_isDirectionAvailable[direction])
                         {
                             _nextShotDirection = direction;
                             break;

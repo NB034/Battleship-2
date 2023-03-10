@@ -1,4 +1,5 @@
-﻿using Battleship_2.Models.Components;
+﻿using Battleship_2.Models.Ai;
+using Battleship_2.Models.Components;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -8,7 +9,7 @@ namespace Battleship_2.Models.Logic
 {
     internal class PVA_GameManager
     {
-        private readonly AiFieldManager aiFieldManager;
+        private readonly Obsolete_Ai_FieldManager aiFieldManager;
         private readonly PlayerFieldManager playerFieldManager;
         private bool isPlayerTurn;
 
@@ -17,11 +18,11 @@ namespace Battleship_2.Models.Logic
         public event Action? PlayerWin;
         public event Action? AiWin;
 
-        public PVA_GameManager(AiFieldManager aiFieldManager, PlayerFieldManager playerFieldManager)
+        public PVA_GameManager(Obsolete_Ai_FieldManager aiFieldManager, PlayerFieldManager playerFieldManager)
         {
             this.aiFieldManager = aiFieldManager;
             this.playerFieldManager = playerFieldManager;
-            AiTurnDelayInMilliseconds = 1000;
+            AiTurnDelayInMilliseconds = 800;
             isPlayerTurn = true;
         }
 
@@ -52,11 +53,11 @@ namespace Battleship_2.Models.Logic
                 return;
             }
 
-            Delay();
+            Delay(500);
             while (AiShoot())
             {
                 if (IsAiWin) AiWin?.Invoke();
-                Delay();
+                Delay(AiTurnDelayInMilliseconds);
             }
 
             IsPlayerTurn = true;
@@ -76,10 +77,10 @@ namespace Battleship_2.Models.Logic
             return isHit;
         }
 
-        private void Delay()
+        private void Delay(long milliseconds)
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
-            while (stopwatch.ElapsedMilliseconds < AiTurnDelayInMilliseconds) ;
+            while (stopwatch.ElapsedMilliseconds < milliseconds) ;
         }
 
         public bool IsPlayerWin => playerFieldManager.Field.Fleet.IsDestroyed;
