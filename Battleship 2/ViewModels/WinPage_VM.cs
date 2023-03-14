@@ -23,7 +23,7 @@ namespace Battleship_2.ViewModels
         {
             if (o is WinPage page)
             {
-                var mainMenu = new MainMenuPage();
+                var mainMenu = new MainPage();
                 page.NavigationService.Navigate(mainMenu);
             }
 

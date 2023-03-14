@@ -22,7 +22,8 @@
 
         <Button Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" 
                 Width="{StaticResource CellSideLength}" Height="{StaticResource CellSideLength}" Margin="15"
-                Command="{Binding OpenMenuCommand}" Style="{StaticResource CogMenuButtonStyle}"/>
+                Command="{Binding PauseCommand}" Style="{StaticResource CogMenuButtonStyle}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page}}"/>
 
         <Grid Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="30,40,10,30">
             <ItemsControl ItemsSource="{Binding GameManager.LeftField}">

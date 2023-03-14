@@ -1,6 +1,8 @@
 ﻿using Battleship_2.Command;
 using Battleship_2.Views;
+using System;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace Battleship_2.ViewModels
 {
@@ -20,8 +22,20 @@ namespace Battleship_2.ViewModels
 
         private void StartGame(object parameter)
         {
-            if (parameter is MainMenuPage page)
+            if (parameter is MainPage page)
             {
+                while (page.NavigationService.CanGoBack)
+                {
+                    try
+                    {
+                        page.NavigationService.RemoveBackEntry();
+                    }
+                    catch (Exception)
+                    {
+                        break;
+                    }
+                }
+
                 var gamePage = new GamePage();
                 var viewModel = new PVA_GamePage_VM(gamePage);
                 gamePage.DataContext = viewModel;

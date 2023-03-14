@@ -65,11 +65,11 @@ namespace Battleship_2.Models.Ai
                     var info = OpenCellAndMakeReport(nextCell);
                     _lastOpenedCell = nextCell;
 
-                    if(!info.WasShotSuccessfull)
+                    if (!info.WasShotSuccessfull)
                     {
                         MarkCheckedDirection(direction);
                     }
-                    else if(info.WasShipDestroyed)
+                    else if (info.WasShipDestroyed)
                     {
                         ResetMemory();
                     }
@@ -117,30 +117,28 @@ namespace Battleship_2.Models.Ai
 
             if (isFirstCellAlowed && isSecondCellAlowed)
             {
-                info = Convert.ToBoolean(_random.Next(2)) 
-                    ? OpenCellAndMakeReport(firstPossibleCell) 
-                    : OpenCellAndMakeReport(secondPossibleCell);
+                _lastOpenedCell = Convert.ToBoolean(_random.Next(2)) ? firstPossibleCell : secondPossibleCell;
             }
             else if (isFirstCellAlowed)
             {
-                OpenCellAndMakeReport(firstPossibleCell);
+                _lastOpenedCell = firstPossibleCell;
             }
             else if (isSecondCellAlowed)
             {
-                OpenCellAndMakeReport(secondPossibleCell);
+                _lastOpenedCell = secondPossibleCell;
             }
             else
             {
                 throw new AiException("AI checked every direction");
             }
 
-            _lastOpenedCell = info.LastOpenedCell;
+            info = OpenCellAndMakeReport(_lastOpenedCell);
 
             if (info.WasShipDestroyed)
             {
                 ResetMemory();
             }
-            else if(info.WasShotSuccessfull)
+            else if (info.WasShotSuccessfull)
             {
                 _openedShipCells.Add(info.LastOpenedCell);
             }
@@ -158,7 +156,7 @@ namespace Battleship_2.Models.Ai
             {
                 info.WasShotSuccessfull = false;
                 info.WasShipDestroyed = false;
-                info.LastOpenedCell = _openedShipCells.First();
+                info.LastOpenedCell = _lastOpenedCell;
             }
             else if (Field.IsShipDestroyed(fieldCell.ShipsGuids.First()))
             {
@@ -202,6 +200,7 @@ namespace Battleship_2.Models.Ai
         {
             _shipOrientation = OrientationsEnum.Unknown;
             _openedShipCells.Clear();
+            _lastOpenedCell = BaseCell.NotValid;
             for (int i = 0; i < _checkedDirections.Length; i++)
             {
                 _checkedDirections[i].isChecked = false;

@@ -2,9 +2,9 @@
 
 namespace Battleship_2.Views
 {
-    public partial class MainMenuPage : Page
+    public partial class MainPage : Page
     {
-        public MainMenuPage()
+        public MainPage()
         {
             InitializeComponent();
         }

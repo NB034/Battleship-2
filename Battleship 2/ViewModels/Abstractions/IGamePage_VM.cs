@@ -8,6 +8,6 @@ namespace Battleship_2.ViewModels
     public interface IGamePage_VM
     {
         IGameManager_VM GameManager { get; }
-        AutoEventCommandBase OpenMenuCommand { get; }
+        AutoEventCommandBase PauseCommand { get; }
     }
 }
