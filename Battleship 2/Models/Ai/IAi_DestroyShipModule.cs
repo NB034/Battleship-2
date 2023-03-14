@@ -10,5 +10,6 @@ namespace Battleship_2.Models.Ai
     internal interface IAi_DestroyShipModule
     {
         Ai_TurnInfo DestroyShip(BaseCell lastOpenedCell);
+        void ResetMemory();
     }
 }

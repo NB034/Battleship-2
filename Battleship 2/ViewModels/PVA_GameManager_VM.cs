@@ -1,8 +1,8 @@
 ﻿using Battleship_2.Accessories;
 using Battleship_2.Command;
+using Battleship_2.Models.Ai;
 using Battleship_2.Models.Components;
 using Battleship_2.Models.Logic;
-using Battleship_2.Models.Logic.Ai;
 using Battleship_2.ViewModels.Abstractions;
 using Battleship_2.Views;
 using System;
@@ -51,13 +51,13 @@ namespace Battleship_2.ViewModels
         public PVA_GameManager_VM(Page pageForNavigationService)
         {
             var autoPlacer = new ShipsAutoPlacer();
-            var aiFieldManager = new Ai_FieldManager(autoPlacer.GenerateField());
+            var aiFieldManager = new SimpleAiFieldManager(autoPlacer.GenerateField());
             var playerFieldManager = new PlayerFieldManager(autoPlacer.GenerateField());
             gameManager = new PVA_GameManager(aiFieldManager, playerFieldManager);
 
             ShipsImagesManager imagesManager = new ShipsImagesManager();
-            LeftFieldShips = new ShipsGrid_VM(imagesManager.GetFirstShipsSet(), gameManager.PlayerFleet, OrientationsEnum.Left);
-            RightFieldShips = new ShipsGrid_VM(imagesManager.GetSecondShipsSet(), gameManager.AiFleet, OrientationsEnum.Right);
+            LeftFieldShips = new ShipsGrid_VM(imagesManager.GetFirstShipsSet(), gameManager.PlayerFleet, DirectionsEnum.Left);
+            RightFieldShips = new ShipsGrid_VM(imagesManager.GetSecondShipsSet(), gameManager.AiFleet, DirectionsEnum.Right);
 
             leftField = new List<Cell_VM>();
             rightField = new List<Cell_VM>();

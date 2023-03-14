@@ -23,6 +23,14 @@ namespace Battleship_2.Models.Components
             }
         }
 
+        public Cell this[int row, int column]
+        {
+            get
+            {
+                return Cells[row, column];
+            }
+        }
+
         public void PlaceNewFleet(ref Fleet fleet)
         {
             Fleet = fleet;
@@ -58,6 +66,12 @@ namespace Battleship_2.Models.Components
                     Cells[cell.I, cell.J].IsOpen = true;
                 }
             }
+        }
+
+        public bool IsShipDestroyed(Guid shipGuid)
+        {
+
+            return Fleet.GetShip(shipGuid).IsDestroyed;
         }
     }
 }

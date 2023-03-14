@@ -19,7 +19,7 @@ namespace Battleship_2.ViewModels
     class ShipsGrid_VM : IShipsGrid_VM, INotifyPropertyChanged
     {
         private readonly IShip_VM[] shipViewModels;
-        private readonly OrientationsEnum location;
+        private readonly DirectionsEnum location;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -43,7 +43,7 @@ namespace Battleship_2.ViewModels
 
         public IShip_VM Decks_1_Num_4 => shipViewModels[9];
 
-        public ShipsGrid_VM(string[] shipImagesUri, Fleet fleet, OrientationsEnum gridLocation)
+        public ShipsGrid_VM(string[] shipImagesUri, Fleet fleet, DirectionsEnum gridLocation)
         {
             location = gridLocation;
             int[] decks = LogicAccessories.NumberOfShipsDecks;
@@ -51,7 +51,7 @@ namespace Battleship_2.ViewModels
             shipViewModels = new Ship_VM[decks.Length];
 
             if (shipImagesUri.Length != 4) throw new ArgumentException("Wrong number of images");
-            if (gridLocation == OrientationsEnum.Up || gridLocation == OrientationsEnum.Down) throw new ArgumentException("Grid location can be only left or right");
+            if (gridLocation == DirectionsEnum.Up || gridLocation == DirectionsEnum.Down) throw new ArgumentException("Grid location can be only left or right");
             if (decks.Length != 10) throw new ShipsGridViewModelException("Class [ShipsGridViewModel] can only be used when [LogicAccessories.NumberOfShipsDecks.Length] equals 10");
 
             for (int i = 0; i < shipViewModels.Length; i++)
@@ -61,13 +61,13 @@ namespace Battleship_2.ViewModels
                 shipVm.ShipImageUri = shipImagesUri[decks[i] - 1];
                 //Cell rootCell;
 
-                if (gridLocation == OrientationsEnum.Left) shipVm.IsVisible = true;
-                if (gridLocation == OrientationsEnum.Right) shipVm.IsVisible = false;
+                if (gridLocation == DirectionsEnum.Left) shipVm.IsVisible = true;
+                if (gridLocation == DirectionsEnum.Right) shipVm.IsVisible = false;
 
-                if (fleetShip.Orientation == OrientationsEnum.Left || fleetShip.Orientation == OrientationsEnum.Right)
+                if (fleetShip.Orientation == DirectionsEnum.Left || fleetShip.Orientation == DirectionsEnum.Right)
                 {
-                    if (gridLocation == OrientationsEnum.Left) shipVm.Rotation = new RotateTransform(90);
-                    if (gridLocation == OrientationsEnum.Right) shipVm.Rotation = new RotateTransform(270);
+                    if (gridLocation == DirectionsEnum.Left) shipVm.Rotation = new RotateTransform(90);
+                    if (gridLocation == DirectionsEnum.Right) shipVm.Rotation = new RotateTransform(270);
 
                     shipVm.ColumnSpan = fleetShip.Cells.Count;
                     fleetShip.Cells.Sort((s1, s2) => s1.J.CompareTo(s2.J));
@@ -94,7 +94,7 @@ namespace Battleship_2.ViewModels
 
         public void RefreshState(Fleet fleet)
         {
-            if (location == OrientationsEnum.Right)
+            if (location == DirectionsEnum.Right)
             {
                 var ships = fleet.Ships;
                 for (int i = 0; i < ships.Count; i++)

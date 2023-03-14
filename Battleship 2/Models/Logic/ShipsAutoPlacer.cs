@@ -28,13 +28,13 @@ namespace Battleship_2.Models.Logic
         private void PlaceShip(int numberOfCells)
         {
             BaseCell firstCell = LogicAccessories.GetRandomCoordinates();
-            OrientationsEnum orientation = random.NextDouble() > 0.5 ? OrientationsEnum.Right : OrientationsEnum.Down;
+            DirectionsEnum orientation = random.NextDouble() > 0.5 ? DirectionsEnum.Right : DirectionsEnum.Down;
             while (true)
             {
                 if (CanPlaceShip(firstCell, orientation, numberOfCells))
                     break;
                 firstCell = LogicAccessories.GetRandomCoordinates();
-                orientation = random.NextDouble() > 0.5 ? OrientationsEnum.Right : OrientationsEnum.Down;
+                orientation = random.NextDouble() > 0.5 ? DirectionsEnum.Right : DirectionsEnum.Down;
             }
 
             var ship = new Ship(orientation);
@@ -45,15 +45,15 @@ namespace Battleship_2.Models.Logic
                 ship.Cells.Add(cell);
                 field.Cells[firstCell.I, firstCell.J] = cell;
 
-                if (orientation == OrientationsEnum.Right) firstCell.J++;
-                else if (orientation == OrientationsEnum.Down) firstCell.I++;
+                if (orientation == DirectionsEnum.Right) firstCell.J++;
+                else if (orientation == DirectionsEnum.Down) firstCell.I++;
             }
 
             field.AddShip(ref ship);
             MarkCellsNearTheShip(ship);
         }
 
-        private bool CanPlaceShip(BaseCell firstCell, OrientationsEnum orientation, int numberOfCells)
+        private bool CanPlaceShip(BaseCell firstCell, DirectionsEnum orientation, int numberOfCells)
         {
             int I = firstCell.I;
             int J = firstCell.J;
@@ -61,8 +61,8 @@ namespace Battleship_2.Models.Logic
             {
                 if (!IsCellAllowed(new BaseCell(J,I))) return false;
 
-                if (orientation == OrientationsEnum.Right) J++;
-                else if (orientation == OrientationsEnum.Down) I++;
+                if (orientation == DirectionsEnum.Right) J++;
+                else if (orientation == DirectionsEnum.Down) I++;
             }
             return true;
         }

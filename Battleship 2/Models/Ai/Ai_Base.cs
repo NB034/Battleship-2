@@ -1,30 +1,27 @@
-﻿using Battleship_2.Models.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Battleship_2.Exceptions;
+using Battleship_2.Models.Components;
 
 namespace Battleship_2.Models.Ai
 {
     internal abstract class Ai_Base
     {
-        public IAi_FindTargetModule FindTargetModule { get; }
-        public IAi_DestroyShipModule DestroyShipModule { get; }
+        public IAi_FindTargetModule? FindTargetModule { get; private set; }
+        public IAi_DestroyShipModule? DestroyShipModule { get; private set; }
 
         private bool _aiHasFoundShip;
         private BaseCell _lastOpenedCell;
 
-        public Ai_Base(IAi_FindTargetModule findTargetModule, IAi_DestroyShipModule destroyShipModule)
+        public Ai_Base()
         {
-            FindTargetModule = findTargetModule;
-            DestroyShipModule = destroyShipModule;
+            FindTargetModule = null;
+            DestroyShipModule = null;
             _aiHasFoundShip = false;
             _lastOpenedCell = BaseCell.NotValid;
         }
 
-        public bool Shoot()
+        public virtual bool Shoot()
         {
+            if (FindTargetModule == null || DestroyShipModule == null) throw new AiException("Modules are not set");
             Ai_TurnInfo info;
             if(_aiHasFoundShip)
             {
@@ -40,6 +37,12 @@ namespace Battleship_2.Models.Ai
 
             }
             return info.WasShotSuccessfull;
+        }
+
+        protected virtual void SetModules(IAi_FindTargetModule findTargetModule, IAi_DestroyShipModule destroyShipModule)
+        {
+            FindTargetModule = findTargetModule;
+            DestroyShipModule = destroyShipModule;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Battleship_2.Models.Logic
 {
     internal class PVA_GameManager
     {
-        private readonly Obsolete_Ai_FieldManager aiFieldManager;
+        private readonly SimpleAiFieldManager aiFieldManager;
         private readonly PlayerFieldManager playerFieldManager;
         private bool isPlayerTurn;
 
@@ -18,7 +18,7 @@ namespace Battleship_2.Models.Logic
         public event Action? PlayerWin;
         public event Action? AiWin;
 
-        public PVA_GameManager(Obsolete_Ai_FieldManager aiFieldManager, PlayerFieldManager playerFieldManager)
+        public PVA_GameManager(SimpleAiFieldManager aiFieldManager, PlayerFieldManager playerFieldManager)
         {
             this.aiFieldManager = aiFieldManager;
             this.playerFieldManager = playerFieldManager;

@@ -45,41 +45,41 @@ namespace Battleship_2.Models.Logic
             return GetfNearbyCells(cell.J, cell.I);
         }
 
-        public static OrientationsEnum GetRandomDirection()
+        public static DirectionsEnum GetRandomDirection()
         {
-            return (OrientationsEnum)GetRandomDirectionAsNumber();
+            return (DirectionsEnum)GetRandomDirectionAsNumber();
         }
 
         public static int GetRandomDirectionAsNumber()
         {
-            return (new Random().Next(Enum.GetValues(typeof(OrientationsEnum)).Length));
+            return (new Random().Next(4));
         }
 
-        public static OrientationsEnum GetOppositeDirection(OrientationsEnum orientation)
+        public static DirectionsEnum GetOppositeDirection(DirectionsEnum orientation)
         {
             switch (orientation)
             {
-                case OrientationsEnum.Left:
-                    return OrientationsEnum.Right;
-                case OrientationsEnum.Right:
-                    return OrientationsEnum.Left;
-                case OrientationsEnum.Up:
-                    return OrientationsEnum.Down;
-                case OrientationsEnum.Down:
-                    return OrientationsEnum.Up;
+                case DirectionsEnum.Left:
+                    return DirectionsEnum.Right;
+                case DirectionsEnum.Right:
+                    return DirectionsEnum.Left;
+                case DirectionsEnum.Up:
+                    return DirectionsEnum.Down;
+                case DirectionsEnum.Down:
+                    return DirectionsEnum.Up;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(orientation));
             }
         }
 
-        public static int GetOppositeDirectionAsNumber(OrientationsEnum orientation)
+        public static int GetOppositeDirectionAsNumber(DirectionsEnum orientation)
         {
             return (int)GetOppositeDirection(orientation);
         }
 
         public static int GetOppositeDirectionAsNumber(int orientation)
         {
-            return (int)GetOppositeDirection((OrientationsEnum)orientation);
+            return (int)GetOppositeDirection((DirectionsEnum)orientation);
         }
 
         private static Random random = new Random();
@@ -88,20 +88,20 @@ namespace Battleship_2.Models.Logic
             return new BaseCell(random.Next(NumberOfFieldColumns), random.Next(NumberOfFieldRows));
         }
 
-        public static bool GetNextCell_IfValid(BaseCell cell, OrientationsEnum direction, out BaseCell? nextCell)
+        public static bool GetNextCell_IfValid(BaseCell cell, DirectionsEnum direction, out BaseCell? nextCell)
         {
             switch (direction)
             {
-                case OrientationsEnum.Left:
+                case DirectionsEnum.Left:
                     nextCell = new BaseCell(cell.J - 1, cell.I);
                     break;
-                case OrientationsEnum.Right:
+                case DirectionsEnum.Right:
                     nextCell = new BaseCell(cell.J + 1, cell.I);
                     break;
-                case OrientationsEnum.Up:
+                case DirectionsEnum.Up:
                     nextCell = new BaseCell(cell.J, cell.I - 1);
                     break;
-                case OrientationsEnum.Down:
+                case DirectionsEnum.Down:
                     nextCell = new BaseCell(cell.J, cell.I + 1);
                     break;
                 default:

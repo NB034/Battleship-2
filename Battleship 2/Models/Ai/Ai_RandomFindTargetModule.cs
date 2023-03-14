@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Battleship_2.Models.Ai
 {
-    internal class Ai_RandomFindTarget_Module : IAi_FindTargetModule
+    internal class Ai_RandomFindTargetModule : IAi_FindTargetModule
     {
         private Field _field;
         public Field Field { get => _field; }
 
-        public Ai_RandomFindTarget_Module(Field field)
+        public Ai_RandomFindTargetModule(Field field)
         {
             _field = field;
         }
