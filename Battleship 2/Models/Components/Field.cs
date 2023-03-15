@@ -40,7 +40,7 @@ namespace Battleship_2.Models.Components
             }
         }
 
-        public void AddShip(ref Ship ship)
+        public void AddShip(Ship ship)
         {
             Fleet.AddShip(ref ship);
             for (int i = 0; i < ship.Cells.Count; i++)

@@ -64,26 +64,19 @@ namespace Battleship_2.ViewModels
                 if (gridLocation == DirectionsEnum.Left) shipVm.IsVisible = true;
                 if (gridLocation == DirectionsEnum.Right) shipVm.IsVisible = false;
 
-                if (fleetShip.Orientation == DirectionsEnum.Left || fleetShip.Orientation == DirectionsEnum.Right)
+                if (fleetShip.Orientation == OrientationsEnum.Horizontal)
                 {
                     if (gridLocation == DirectionsEnum.Left) shipVm.Rotation = new RotateTransform(90);
                     if (gridLocation == DirectionsEnum.Right) shipVm.Rotation = new RotateTransform(270);
 
                     shipVm.ColumnSpan = fleetShip.Cells.Count;
                     fleetShip.Cells.Sort((s1, s2) => s1.J.CompareTo(s2.J));
-
-                    //int x = fleetShip.Cells.Select(cell => cell.J).Min();
-                    //rootCell = fleetShip.Cells.Where(cell => cell.J == x).First();
                 }
                 else
                 {
                     shipVm.RowSpan = fleetShip.Cells.Count;
                     fleetShip.Cells.Sort((s1, s2) => s1.I.CompareTo(s2.I));
-                    //int y = fleetShip.Cells.Select(cell => cell.I).Min();
-                    //rootCell = fleetShip.Cells.Where(cell => cell.I == y).First();
                 }
-                //shipVm.Row = rootCell.J;
-                //shipVm.Column = rootCell.I;
 
                 shipVm.Row = fleetShip.Cells.First().I;
                 shipVm.Column = fleetShip.Cells.First().J;
