@@ -10,8 +10,8 @@ namespace Battleship_2.Models.Components
         public List<Guid> ShipsGuids { get; }
 
         public Cell() : this(0, 0, CellTypesEnum.Empty) { }
-        public Cell(int x, int y) : this(x, y, CellTypesEnum.Empty) { }
-        public Cell(int x, int y, CellTypesEnum cellType) : base(x, y)
+        public Cell(int i, int j) : this(i, j, CellTypesEnum.Empty) { }
+        public Cell(int i, int j, CellTypesEnum cellType) : base(i, j)
         {
             CellType = cellType;
             IsOpen = false;
@@ -26,6 +26,6 @@ namespace Battleship_2.Models.Components
             ShipsGuids.Add(guid);
         }
 
-        public BaseCell Base => new BaseCell(J, I);
+        public BaseCell Base => new BaseCell(I, J);
     }
 }

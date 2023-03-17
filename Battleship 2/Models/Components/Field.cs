@@ -17,7 +17,7 @@ namespace Battleship_2.Models.Components
             {
                 for (int j = 0; j < fieldColumns; j++)
                 {
-                    Cell cell = new Cell(j, i);
+                    Cell cell = new Cell(i, j);
                     Cells[i, j] = cell;
                 }
             }

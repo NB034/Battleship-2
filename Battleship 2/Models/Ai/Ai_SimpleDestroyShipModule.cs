@@ -189,10 +189,10 @@ namespace Battleship_2.Models.Ai
 
         private BaseCell GetNextCell(DirectionsEnum direction, BaseCell cell) => direction switch
         {
-            DirectionsEnum.Left => new BaseCell(cell.J - 1, cell.I),
-            DirectionsEnum.Right => new BaseCell(cell.J + 1, cell.I),
-            DirectionsEnum.Up => new BaseCell(cell.J, cell.I - 1),
-            DirectionsEnum.Down => new BaseCell(cell.J, cell.I + 1),
+            DirectionsEnum.Left => new BaseCell(cell.I, cell.J - 1),
+            DirectionsEnum.Right => new BaseCell(cell.I, cell.J + 1),
+            DirectionsEnum.Up => new BaseCell(cell.I - 1, cell.J),
+            DirectionsEnum.Down => new BaseCell(cell.I + 1, cell.J),
             _ => cell
         };
 

@@ -40,7 +40,7 @@ namespace Battleship_2.Models.Logic
             var ship = new Ship(orientation);
             for (int i = 0; i < numberOfCells; i++)
             {
-                Cell cell = new Cell(firstCell.J, firstCell.I, CellTypesEnum.ShipDeck);
+                Cell cell = new Cell(firstCell.I, firstCell.J, CellTypesEnum.ShipDeck);
                 cell.AddShipGuid(ship.ShipGuid);
                 ship.Cells.Add(cell);
                 _field.Cells[firstCell.I, firstCell.J] = cell;
@@ -59,7 +59,7 @@ namespace Battleship_2.Models.Logic
             int J = firstCell.J;
             for (int i = 0; i < numberOfCells; i++)
             {
-                if (!IsCellAllowed(new BaseCell(J,I))) return false;
+                if (!IsCellAllowed(new BaseCell(I, J))) return false;
 
                 if (orientation == OrientationsEnum.Horizontal) J++;
                 else if (orientation == OrientationsEnum.Vertical) I++;
@@ -90,7 +90,7 @@ namespace Battleship_2.Models.Logic
         {
             foreach (var shipCell in ship.Cells)
             {
-                foreach (var nearbyCell in LogicAccessories.GetfNearbyCells(shipCell.J, shipCell.I))
+                foreach (var nearbyCell in LogicAccessories.GetfNearbyCells(shipCell.I, shipCell.J))
                 {
                     Cell cell = _field.Cells[nearbyCell.I, nearbyCell.J];
                     if (cell.CellType != CellTypesEnum.ShipDeck)

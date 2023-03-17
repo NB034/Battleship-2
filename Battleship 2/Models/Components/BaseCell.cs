@@ -6,10 +6,10 @@
         public int J { get; set; }
 
         public BaseCell() : this(0, 0) { }
-        public BaseCell(int x, int y)
+        public BaseCell(int i, int j)
         {
-            I = y;
-            J = x;
+            I = i;
+            J = j;
         }
 
         public static BaseCell NotValid => new BaseCell(-1, -1);

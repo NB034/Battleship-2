@@ -79,7 +79,7 @@ namespace Battleship_2.ViewModels
             int indexOfCell = RightField.IndexOf(cell);
             int rows = indexOfCell / LogicAccessories.NumberOfFieldRows;
             int columns = indexOfCell % LogicAccessories.NumberOfFieldColumns;
-            Task.Run(() => gameManager.PlayerShoot(new BaseCell(columns, rows)));
+            Task.Run(() => gameManager.PlayerShoot(new BaseCell(rows, columns)));
         }
 
         private bool CanShoot(object parameter)
