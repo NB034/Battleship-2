@@ -6,6 +6,8 @@ namespace Battleship_2.Models.Components
 {
     public class Fleet
     {
+        public readonly static int[] ShipsDecks = { 4, 3, 3, 2, 2, 2, 1, 1, 1, 1 };
+
         public List<Ship> Ships { get; set; }
         public bool IsDestroyed => !Ships.Any(s => !s.IsDestroyed);
 

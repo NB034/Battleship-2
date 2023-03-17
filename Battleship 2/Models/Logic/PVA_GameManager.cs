@@ -9,9 +9,9 @@ namespace Battleship_2.Models.Logic
 {
     internal class PVA_GameManager
     {
-        private readonly SimpleAiFieldManager aiFieldManager;
-        private readonly PlayerFieldManager playerFieldManager;
-        private bool isPlayerTurn;
+        private readonly SimpleAiFieldManager _aiFieldManager;
+        private readonly PlayerFieldManager _playerFieldManager;
+        private bool _isPlayerTurn;
 
         public event Action? AiFieldChanged;
         public event Action? PlayerFieldChanged;
@@ -20,24 +20,24 @@ namespace Battleship_2.Models.Logic
 
         public PVA_GameManager(SimpleAiFieldManager aiFieldManager, PlayerFieldManager playerFieldManager)
         {
-            this.aiFieldManager = aiFieldManager;
-            this.playerFieldManager = playerFieldManager;
+            this._aiFieldManager = aiFieldManager;
+            this._playerFieldManager = playerFieldManager;
             AiTurnDelayInMilliseconds = 800;
-            isPlayerTurn = true;
+            _isPlayerTurn = true;
         }
 
-        public Fleet AiFleet => playerFieldManager.Field.Fleet;
-        public Fleet PlayerFleet => aiFieldManager.Field.Fleet;
-        public Cell[,] AiField => playerFieldManager.Field.Cells;
-        public Cell[,] PlayerField => aiFieldManager.Field.Cells;
+        public Fleet AiFleet => _playerFieldManager.Field.Fleet;
+        public Fleet PlayerFleet => _aiFieldManager.Field.Fleet;
+        public Cell[,] AiField => _playerFieldManager.Field.Cells;
+        public Cell[,] PlayerField => _aiFieldManager.Field.Cells;
         public Int32 AiTurnDelayInMilliseconds { get; set; }
 
         public bool IsPlayerTurn
         {
-            get { return isPlayerTurn; }
+            get { return _isPlayerTurn; }
             private set
             {
-                isPlayerTurn = value;
+                _isPlayerTurn = value;
                 AiFieldChanged?.Invoke();
             }
         }
@@ -54,7 +54,7 @@ namespace Battleship_2.Models.Logic
             }
 
             Delay(500);
-            while (AiShoot())
+            while (AiTurn())
             {
                 if (IsAiWin) AiWin?.Invoke();
                 Delay(AiTurnDelayInMilliseconds);
@@ -65,14 +65,14 @@ namespace Battleship_2.Models.Logic
 
         private bool PlayerTurn(BaseCell cell)
         {
-            bool isHit = playerFieldManager.Shoot(cell);
+            bool isHit = _playerFieldManager.Shoot(cell);
             AiFieldChanged?.Invoke();
             return isHit;
         }
 
-        private bool AiShoot()
+        private bool AiTurn()
         {
-            bool isHit = aiFieldManager.Shoot();
+            bool isHit = _aiFieldManager.Shoot();
             PlayerFieldChanged?.Invoke();
             return isHit;
         }
@@ -83,7 +83,7 @@ namespace Battleship_2.Models.Logic
             while (stopwatch.ElapsedMilliseconds < milliseconds) ;
         }
 
-        public bool IsPlayerWin => playerFieldManager.Field.Fleet.IsDestroyed;
-        public bool IsAiWin => aiFieldManager.Field.Fleet.IsDestroyed;
+        public bool IsPlayerWin => _playerFieldManager.Field.Fleet.IsDestroyed;
+        public bool IsAiWin => _aiFieldManager.Field.Fleet.IsDestroyed;
     }
 }

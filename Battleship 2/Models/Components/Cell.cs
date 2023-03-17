@@ -7,7 +7,7 @@ namespace Battleship_2.Models.Components
     {
         public bool IsOpen { get; set; }
         public CellTypesEnum CellType { get; set; }
-        public List<Guid> ShipsGuids { get; }
+        public HashSet<Guid> ShipsGuids { get; }
 
         public Cell() : this(0, 0, CellTypesEnum.Empty) { }
         public Cell(int i, int j) : this(i, j, CellTypesEnum.Empty) { }
@@ -15,7 +15,7 @@ namespace Battleship_2.Models.Components
         {
             CellType = cellType;
             IsOpen = false;
-            ShipsGuids = new List<Guid>();
+            ShipsGuids = new HashSet<Guid>();
         }
 
         public virtual void AddShipGuid(Guid guid)
@@ -23,7 +23,10 @@ namespace Battleship_2.Models.Components
             if (CellType == CellTypesEnum.Empty && ShipsGuids.Count >= 0) return;
             if (CellType == CellTypesEnum.ShipDeck && ShipsGuids.Count >= 1) return;
             if (CellType == CellTypesEnum.NearTheShip && ShipsGuids.Count >= 4) return;
-            ShipsGuids.Add(guid);
+            if (!ShipsGuids.Add(guid))
+            {
+                throw new ArgumentException("Hashset already contains identical guid");
+            }
         }
 
         public BaseCell Base => new BaseCell(I, J);

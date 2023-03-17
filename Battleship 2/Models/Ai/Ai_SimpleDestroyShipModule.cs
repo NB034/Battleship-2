@@ -23,7 +23,7 @@ namespace Battleship_2.Models.Ai
         {
             _random = new Random();
             _field = field;
-            _openedShipCells = new List<BaseCell>(LogicAccessories.NumberOfShipsDecks.Max());
+            _openedShipCells = new List<BaseCell>(Fleet.ShipsDecks.Max());
             _lastOpenedCell = BaseCell.NotValid;
             _shipOrientation = OrientationsEnum.Unknown;
             _checkedDirections = new[]
@@ -39,7 +39,11 @@ namespace Battleship_2.Models.Ai
         {
             if (_shipOrientation == OrientationsEnum.Unknown)
             {
-                _openedShipCells.Add(lastOpenedCell);
+                if (_openedShipCells.Count == 0)
+                {
+                    _openedShipCells.Add(lastOpenedCell);
+                }
+
                 return FindSecondCell();
             }
             else
@@ -156,7 +160,7 @@ namespace Battleship_2.Models.Ai
             {
                 info.WasShotSuccessfull = false;
                 info.WasShipDestroyed = false;
-                info.LastOpenedCell = _lastOpenedCell;
+                info.LastOpenedCell = cell;
             }
             else if (Field.IsShipDestroyed(fieldCell.ShipsGuids.First()))
             {

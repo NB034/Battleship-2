@@ -11,7 +11,7 @@ namespace Battleship_2.Models.Logic
         public Field GenerateField()
         {
             ResetFields();
-            int[] numberOfShipsDecks = LogicAccessories.NumberOfShipsDecks;
+            int[] numberOfShipsDecks = Fleet.ShipsDecks;
             for (int i = 0; i < numberOfShipsDecks.Length; i++)
             {
                 PlaceShip(numberOfShipsDecks[i]);
@@ -21,7 +21,7 @@ namespace Battleship_2.Models.Logic
 
         private void ResetFields()
         {
-            _field = new Field(LogicAccessories.NumberOfFieldRows, LogicAccessories.NumberOfFieldColumns);
+            _field = new Field(LogicAccessories.FieldRows, LogicAccessories.FieldColumns);
             _random = new Random();
         }
 
@@ -93,7 +93,7 @@ namespace Battleship_2.Models.Logic
                 foreach (var nearbyCell in LogicAccessories.GetfNearbyCells(shipCell.I, shipCell.J))
                 {
                     Cell cell = _field.Cells[nearbyCell.I, nearbyCell.J];
-                    if (cell.CellType != CellTypesEnum.ShipDeck)
+                    if (cell.CellType != CellTypesEnum.ShipDeck && !cell.ShipsGuids.Contains(ship.ShipGuid))
                     {
                         cell.CellType = CellTypesEnum.NearTheShip;
                         cell.AddShipGuid(ship.ShipGuid);
