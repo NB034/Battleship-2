@@ -1,9 +1,4 @@
-﻿using Battleship_2.Models.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Battleship_2.Models.FieldComponents;
 
 namespace Battleship_2.ViewModels
 {

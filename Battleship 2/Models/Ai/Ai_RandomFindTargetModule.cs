@@ -1,5 +1,6 @@
-﻿using Battleship_2.Models.Components;
-using Battleship_2.Models.Logic;
+﻿using Battleship_2.Models.Ai.Abstractions;
+using Battleship_2.Models.FieldComponents;
+using Battleship_2.Models.FieldComponents.Enumerations;
 using System.Linq;
 
 namespace Battleship_2.Models.Ai
@@ -19,8 +20,8 @@ namespace Battleship_2.Models.Ai
             Ai_TurnInfo info = new Ai_TurnInfo();
             while (true)
             {
-                BaseCell randomCell = LogicAccessories.GetRandomCoordinates();
-                Cell fieldCell = Field.Cells[randomCell.I, randomCell.J];
+                var randomCell = Cell.RandomCell;
+                FieldCell fieldCell = Field.Cells[randomCell.I, randomCell.J];
                 if (!fieldCell.IsOpen)
                 {
                     fieldCell.IsOpen = true;
@@ -34,7 +35,7 @@ namespace Battleship_2.Models.Ai
                     }
                     else if (fieldCell.CellType == CellTypesEnum.ShipDeck)
                     {
-                        LogicAccessories.OpenCellsAroundDestroyedShip(ref _field, fieldCell.ShipsGuids.First());
+                        _field.OpenCellsAroundShip(fieldCell.ShipsGuids.First());
                         info.WasShotSuccessfull = true;
                         info.WasShipDestroyed = true;
                     }

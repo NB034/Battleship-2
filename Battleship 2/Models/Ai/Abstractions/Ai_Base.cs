@@ -1,7 +1,7 @@
 ﻿using Battleship_2.Exceptions;
-using Battleship_2.Models.Components;
+using Battleship_2.Models.FieldComponents;
 
-namespace Battleship_2.Models.Ai
+namespace Battleship_2.Models.Ai.Abstractions
 {
     internal abstract class Ai_Base
     {
@@ -9,21 +9,21 @@ namespace Battleship_2.Models.Ai
         public IAi_DestroyShipModule? DestroyShipModule { get; private set; }
 
         private bool _aiHasFoundShip;
-        private BaseCell _lastOpenedCell;
+        private Cell _lastOpenedCell;
 
         public Ai_Base()
         {
             FindTargetModule = null;
             DestroyShipModule = null;
             _aiHasFoundShip = false;
-            _lastOpenedCell = BaseCell.NotValid;
+            _lastOpenedCell = Cell.NotValid;
         }
 
         public virtual bool Shoot()
         {
             if (FindTargetModule == null || DestroyShipModule == null) throw new AiException("Modules are not set");
             Ai_TurnInfo info;
-            if(_aiHasFoundShip)
+            if (_aiHasFoundShip)
             {
                 info = DestroyShipModule.DestroyShip(_lastOpenedCell);
                 _aiHasFoundShip = !info.WasShipDestroyed;

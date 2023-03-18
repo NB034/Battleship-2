@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Battleship_2.Models.FieldComponents.Enumerations;
 
-namespace Battleship_2.Models.Components
+namespace Battleship_2.Models.FieldComponents
 {
     public class Ship
     {
         public int NumberOfDecks => Cells.Count;
-        public List<Cell> Cells { get; set; }
+        public List<FieldCell> Cells { get; set; }
         public Guid ShipGuid { get; }
         public bool IsDestroyed => !Cells.Any(c => !c.IsOpen);
         public OrientationsEnum Orientation { get; }
 
-        public Ship(OrientationsEnum orientation) : this(new List<Cell>(), orientation) { }
-        public Ship(List<Cell> cells, OrientationsEnum orientation)
+        public Ship(OrientationsEnum orientation) : this(new List<FieldCell>(), orientation) { }
+        public Ship(List<FieldCell> cells, OrientationsEnum orientation)
         {
             ShipGuid = Guid.NewGuid();
             Cells = cells;
             Orientation = orientation;
         }
 
-        public void AddCell(ref Cell cell)
+        public void AddCell(ref FieldCell cell)
         {
             Cells.Add(cell);
         }

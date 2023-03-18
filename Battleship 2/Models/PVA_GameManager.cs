@@ -1,11 +1,9 @@
 ﻿using Battleship_2.Models.Ai;
-using Battleship_2.Models.Components;
+using Battleship_2.Models.FieldComponents;
 using System;
 using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
 
-namespace Battleship_2.Models.Logic
+namespace Battleship_2.Models
 {
     internal class PVA_GameManager
     {
@@ -20,17 +18,17 @@ namespace Battleship_2.Models.Logic
 
         public PVA_GameManager(SimpleAiFieldManager aiFieldManager, PlayerFieldManager playerFieldManager)
         {
-            this._aiFieldManager = aiFieldManager;
-            this._playerFieldManager = playerFieldManager;
+            _aiFieldManager = aiFieldManager;
+            _playerFieldManager = playerFieldManager;
             AiTurnDelayInMilliseconds = 800;
             _isPlayerTurn = true;
         }
 
         public Fleet AiFleet => _playerFieldManager.Field.Fleet;
         public Fleet PlayerFleet => _aiFieldManager.Field.Fleet;
-        public Cell[,] AiField => _playerFieldManager.Field.Cells;
-        public Cell[,] PlayerField => _aiFieldManager.Field.Cells;
-        public Int32 AiTurnDelayInMilliseconds { get; set; }
+        public FieldCell[,] AiField => _playerFieldManager.Field.Cells;
+        public FieldCell[,] PlayerField => _aiFieldManager.Field.Cells;
+        public int AiTurnDelayInMilliseconds { get; set; }
 
         public bool IsPlayerTurn
         {
@@ -42,7 +40,7 @@ namespace Battleship_2.Models.Logic
             }
         }
 
-        public void PlayerShoot(BaseCell cell)
+        public void PlayerShoot(Cell cell)
         {
             IsPlayerTurn = false;
 
@@ -63,7 +61,7 @@ namespace Battleship_2.Models.Logic
             IsPlayerTurn = true;
         }
 
-        private bool PlayerTurn(BaseCell cell)
+        private bool PlayerTurn(Cell cell)
         {
             bool isHit = _playerFieldManager.Shoot(cell);
             AiFieldChanged?.Invoke();

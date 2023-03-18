@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       ShowsNavigationUI="False"
-      xmlns:vm="clr-namespace:Battleship_2.ViewModels"
+      xmlns:vm="clr-namespace:Battleship_2.ViewModels.PagesViewModels"
       xmlns:v="clr-namespace:Battleship_2.Views"
       WindowTitle="Battleship 2" 
       d:DesignHeight="600" d:DesignWidth="1000"

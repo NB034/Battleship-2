@@ -3,7 +3,7 @@ using Battleship_2.Views;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Battleship_2.ViewModels
+namespace Battleship_2.ViewModels.PagesViewModels
 {
     public class WinPage_VM
     {

@@ -1,4 +1,5 @@
-﻿namespace Battleship_2.Models.Components
+﻿
+namespace Battleship_2.Models.FieldComponents.Enumerations
 {
     public enum DirectionsEnum
     {

@@ -1,7 +1,8 @@
-﻿using Battleship_2.Models.Components;
+﻿using Battleship_2.Models.FieldComponents;
+using Battleship_2.Models.FieldComponents.Enumerations;
 using System.Linq;
 
-namespace Battleship_2.Models.Logic
+namespace Battleship_2.Models
 {
     internal class PlayerFieldManager : IFieldManager
     {
@@ -10,19 +11,19 @@ namespace Battleship_2.Models.Logic
 
         public PlayerFieldManager(Field field)
         {
-            this._field = field;
+            _field = field;
         }
 
-        public bool Shoot(BaseCell selectedCell)
+        public bool Shoot(Cell selectedCell)
         {
-            Cell fieldCell = _field.Cells[selectedCell.I, selectedCell.J];
+            FieldCell fieldCell = _field.Cells[selectedCell.I, selectedCell.J];
             _field.OpenCell(fieldCell);
 
-            if(fieldCell.CellType == CellTypesEnum.ShipDeck)
+            if (fieldCell.CellType == CellTypesEnum.ShipDeck)
             {
                 if (_field.Fleet.GetShip(fieldCell.ShipsGuids.First()).IsDestroyed)
                 {
-                    LogicAccessories.OpenCellsAroundDestroyedShip(ref _field, fieldCell.ShipsGuids.First());
+                    _field.OpenCellsAroundShip(fieldCell.ShipsGuids.First());
                 }
                 return true;
             }

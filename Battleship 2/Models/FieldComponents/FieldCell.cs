@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using Battleship_2.Models.FieldComponents.Enumerations;
 
-namespace Battleship_2.Models.Components
+namespace Battleship_2.Models.FieldComponents
 {
-    public class Cell : BaseCell
+    public class FieldCell : Cell
     {
         public bool IsOpen { get; set; }
         public CellTypesEnum CellType { get; set; }
         public HashSet<Guid> ShipsGuids { get; }
 
-        public Cell() : this(0, 0, CellTypesEnum.Empty) { }
-        public Cell(int i, int j) : this(i, j, CellTypesEnum.Empty) { }
-        public Cell(int i, int j, CellTypesEnum cellType) : base(i, j)
+        public FieldCell() : this(0, 0, CellTypesEnum.Empty) { }
+        public FieldCell(int i, int j) : this(i, j, CellTypesEnum.Empty) { }
+        public FieldCell(int i, int j, CellTypesEnum cellType) : base(i, j)
         {
             CellType = cellType;
             IsOpen = false;
@@ -29,6 +30,6 @@ namespace Battleship_2.Models.Components
             }
         }
 
-        public BaseCell Base => new BaseCell(I, J);
+        public Cell Base => new Cell(I, J);
     }
 }

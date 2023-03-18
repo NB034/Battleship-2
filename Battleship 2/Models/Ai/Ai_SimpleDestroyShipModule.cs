@@ -1,10 +1,10 @@
-﻿using Battleship_2.Models.Components;
-using Battleship_2.Models.Logic;
+﻿using Battleship_2.Models.FieldComponents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Battleship_2.Accessories;
 using Battleship_2.Exceptions;
+using Battleship_2.Models.Ai.Abstractions;
+using Battleship_2.Models.FieldComponents.Enumerations;
 
 namespace Battleship_2.Models.Ai
 {
@@ -12,8 +12,8 @@ namespace Battleship_2.Models.Ai
     {
         private Random _random;
         private Field _field;
-        private List<BaseCell> _openedShipCells;
-        private BaseCell _lastOpenedCell;
+        private List<Cell> _openedShipCells;
+        private Cell _lastOpenedCell;
         private OrientationsEnum _shipOrientation;
         private (DirectionsEnum direction, bool isChecked)[] _checkedDirections;
 
@@ -23,8 +23,8 @@ namespace Battleship_2.Models.Ai
         {
             _random = new Random();
             _field = field;
-            _openedShipCells = new List<BaseCell>(Fleet.ShipsDecks.Max());
-            _lastOpenedCell = BaseCell.NotValid;
+            _openedShipCells = new List<Cell>(Fleet.ShipsDecks.Max());
+            _lastOpenedCell = Cell.NotValid;
             _shipOrientation = OrientationsEnum.Unknown;
             _checkedDirections = new[]
             {
@@ -35,7 +35,7 @@ namespace Battleship_2.Models.Ai
             };
         }
 
-        public Ai_TurnInfo DestroyShip(BaseCell lastOpenedCell)
+        public Ai_TurnInfo DestroyShip(Cell lastOpenedCell)
         {
             if (_shipOrientation == OrientationsEnum.Unknown)
             {
@@ -64,7 +64,7 @@ namespace Battleship_2.Models.Ai
                 var direction = availableDirections.ElementAt(_random.Next(count)).direction;
                 var nextCell = GetNextCell(direction, _openedShipCells.First());
 
-                if (LogicAccessories.FieldBoundsCheck(nextCell) && !Field[nextCell.I, nextCell.J].IsOpen)
+                if (Field.FieldBoundsCheck(nextCell) && !Field[nextCell.I, nextCell.J].IsOpen)
                 {
                     var info = OpenCellAndMakeReport(nextCell);
                     _lastOpenedCell = nextCell;
@@ -96,8 +96,8 @@ namespace Battleship_2.Models.Ai
         {
             if (_shipOrientation == OrientationsEnum.Unknown) throw new AiException("Orientation of the ship was not found out");
 
-            BaseCell firstPossibleCell;
-            BaseCell secondPossibleCell;
+            Cell firstPossibleCell;
+            Cell secondPossibleCell;
 
             if (_shipOrientation == OrientationsEnum.Horizontal)
             {
@@ -112,9 +112,9 @@ namespace Battleship_2.Models.Ai
                 secondPossibleCell = GetNextCell(DirectionsEnum.Down, _openedShipCells.Last());
             }
 
-            var isFirstCellAlowed = LogicAccessories.FieldBoundsCheck(firstPossibleCell)
+            var isFirstCellAlowed = Field.FieldBoundsCheck(firstPossibleCell)
                 && !Field[firstPossibleCell.I, firstPossibleCell.J].IsOpen;
-            var isSecondCellAlowed = LogicAccessories.FieldBoundsCheck(secondPossibleCell)
+            var isSecondCellAlowed = Field.FieldBoundsCheck(secondPossibleCell)
                 && !Field[secondPossibleCell.I, secondPossibleCell.J].IsOpen;
 
             var info = new Ai_TurnInfo();
@@ -150,7 +150,7 @@ namespace Battleship_2.Models.Ai
             return info;
         }
 
-        private Ai_TurnInfo OpenCellAndMakeReport(BaseCell cell)
+        private Ai_TurnInfo OpenCellAndMakeReport(Cell cell)
         {
             Field.OpenCell(cell);
             var fieldCell = Field[cell.I, cell.J];
@@ -168,7 +168,7 @@ namespace Battleship_2.Models.Ai
                 info.WasShipDestroyed = true;
                 info.LastOpenedCell = cell;
 
-                LogicAccessories.OpenCellsAroundDestroyedShip(ref _field, fieldCell.ShipsGuids.First());
+                _field.OpenCellsAroundShip(fieldCell.ShipsGuids.First());
             }
             else
             {
@@ -191,12 +191,12 @@ namespace Battleship_2.Models.Ai
             }
         }
 
-        private BaseCell GetNextCell(DirectionsEnum direction, BaseCell cell) => direction switch
+        private Cell GetNextCell(DirectionsEnum direction, Cell cell) => direction switch
         {
-            DirectionsEnum.Left => new BaseCell(cell.I, cell.J - 1),
-            DirectionsEnum.Right => new BaseCell(cell.I, cell.J + 1),
-            DirectionsEnum.Up => new BaseCell(cell.I - 1, cell.J),
-            DirectionsEnum.Down => new BaseCell(cell.I + 1, cell.J),
+            DirectionsEnum.Left => new Cell(cell.I, cell.J - 1),
+            DirectionsEnum.Right => new Cell(cell.I, cell.J + 1),
+            DirectionsEnum.Up => new Cell(cell.I - 1, cell.J),
+            DirectionsEnum.Down => new Cell(cell.I + 1, cell.J),
             _ => cell
         };
 
@@ -204,7 +204,7 @@ namespace Battleship_2.Models.Ai
         {
             _shipOrientation = OrientationsEnum.Unknown;
             _openedShipCells.Clear();
-            _lastOpenedCell = BaseCell.NotValid;
+            _lastOpenedCell = Cell.NotValid;
             for (int i = 0; i < _checkedDirections.Length; i++)
             {
                 _checkedDirections[i].isChecked = false;

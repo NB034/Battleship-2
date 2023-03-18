@@ -1,18 +1,10 @@
-﻿using Battleship_2.Accessories;
-using Battleship_2.Exceptions;
-using Battleship_2.Models.Components;
-using Battleship_2.Models.Logic;
+﻿using Battleship_2.Exceptions;
+using Battleship_2.Models.FieldComponents;
+using Battleship_2.Models.FieldComponents.Enumerations;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Battleship_2.ViewModels
 {
@@ -59,7 +51,6 @@ namespace Battleship_2.ViewModels
                 var shipVm = new Ship_VM();
                 var fleetShip = fleet.Ships[i];
                 shipVm.ShipImageUri = shipImagesUri[decks[i] - 1];
-                //Cell rootCell;
 
                 if (gridLocation == DirectionsEnum.Left) shipVm.IsVisible = true;
                 if (gridLocation == DirectionsEnum.Right) shipVm.IsVisible = false;

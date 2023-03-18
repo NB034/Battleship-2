@@ -1,23 +1,20 @@
 ﻿using Battleship_2.Accessories;
 using Battleship_2.Command;
+using Battleship_2.Models;
 using Battleship_2.Models.Ai;
-using Battleship_2.Models.Components;
-using Battleship_2.Models.Logic;
+using Battleship_2.Models.FieldComponents;
+using Battleship_2.Models.FieldComponents.Enumerations;
 using Battleship_2.ViewModels.Abstractions;
 using Battleship_2.Views;
-using System;
+using Battleship_2.ViewModels.PagesViewModels;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Navigation;
 using System.Windows.Threading;
 
 namespace Battleship_2.ViewModels
@@ -77,9 +74,9 @@ namespace Battleship_2.ViewModels
         {
             var cell = (Cell_VM)parameter;
             int indexOfCell = RightField.IndexOf(cell);
-            int rows = indexOfCell / LogicAccessories.FieldRows;
-            int columns = indexOfCell % LogicAccessories.FieldColumns;
-            await Task.Run(() => _gameManager.PlayerShoot(new BaseCell(rows, columns)));
+            int rows = indexOfCell / Field.FieldRows;
+            int columns = indexOfCell % Field.FieldColumns;
+            await Task.Run(() => _gameManager.PlayerShoot(new Cell(rows, columns)));
         }
 
         private bool CanShoot(object parameter)
@@ -116,12 +113,12 @@ namespace Battleship_2.ViewModels
 
         private void RefreshLeftField()
         {
-            int totalNumberOfCells = LogicAccessories.FieldRows * LogicAccessories.FieldColumns;
+            int totalNumberOfCells = Field.FieldRows * Field.FieldColumns;
             var playerCellsList = new List<Cell_VM>(totalNumberOfCells);
 
-            for (int i = 0; i < LogicAccessories.FieldRows; i++)
+            for (int i = 0; i < Field.FieldRows; i++)
             {
-                for (int j = 0; j < LogicAccessories.FieldColumns; j++)
+                for (int j = 0; j < Field.FieldColumns; j++)
                 {
                     var playerCell = new Cell_VM(_gameManager.PlayerField[i, j].CellType == CellTypesEnum.ShipDeck)
                     {
@@ -139,12 +136,12 @@ namespace Battleship_2.ViewModels
 
         private void RefreshRightField()
         {
-            int totalNumberOfCells = LogicAccessories.FieldRows * LogicAccessories.FieldColumns;
+            int totalNumberOfCells = Field.FieldRows * Field.FieldColumns;
             var aiCellsList = new List<Cell_VM>(totalNumberOfCells);
 
-            for (int i = 0; i < LogicAccessories.FieldRows; i++)
+            for (int i = 0; i < Field.FieldRows; i++)
             {
-                for (int j = 0; j < LogicAccessories.FieldColumns; j++)
+                for (int j = 0; j < Field.FieldColumns; j++)
                 {
 
                     var aiCell = new Cell_VM(_gameManager.AiField[i, j].CellType == CellTypesEnum.ShipDeck)

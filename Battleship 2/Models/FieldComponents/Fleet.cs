@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Battleship_2.Models.Components
+namespace Battleship_2.Models.FieldComponents
 {
     public class Fleet
     {
@@ -27,9 +27,9 @@ namespace Battleship_2.Models.Components
             return Ships.First(s => s.ShipGuid == guid) ?? throw new ArgumentException("Invalid ship guid");
         }
 
-        public List<Cell> GetAllShipsCells()
+        public List<FieldCell> GetAllShipsCells()
         {
-            var cells = new List<Cell>();
+            var cells = new List<FieldCell>();
             foreach (var ship in Ships)
             {
                 cells.AddRange(ship.Cells);

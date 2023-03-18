@@ -1,7 +1,8 @@
-﻿using Battleship_2.Models.Components;
+﻿using Battleship_2.Models.FieldComponents;
+using Battleship_2.Models.FieldComponents.Enumerations;
 using System;
 
-namespace Battleship_2.Models.Logic
+namespace Battleship_2.Models
 {
     internal class ShipsAutoPlacer
     {
@@ -21,17 +22,17 @@ namespace Battleship_2.Models.Logic
 
         private void ResetFields()
         {
-            _field = new Field(LogicAccessories.FieldRows, LogicAccessories.FieldColumns);
+            _field = new Field(Field.FieldRows, Field.FieldColumns);
             _random = new Random();
         }
 
         private void PlaceShip(int numberOfCells)
         {
-            BaseCell firstCell;
+            Cell firstCell;
             OrientationsEnum orientation;
             while (true)
             {
-                firstCell = LogicAccessories.GetRandomCoordinates();
+                firstCell = Cell.RandomCell;
                 orientation = _random.NextDouble() > 0.5 ? OrientationsEnum.Horizontal : OrientationsEnum.Vertical;
                 if (CanPlaceShip(firstCell, orientation, numberOfCells))
                     break;
@@ -40,7 +41,7 @@ namespace Battleship_2.Models.Logic
             var ship = new Ship(orientation);
             for (int i = 0; i < numberOfCells; i++)
             {
-                Cell cell = new Cell(firstCell.I, firstCell.J, CellTypesEnum.ShipDeck);
+                FieldCell cell = new FieldCell(firstCell.I, firstCell.J, CellTypesEnum.ShipDeck);
                 cell.AddShipGuid(ship.ShipGuid);
                 ship.Cells.Add(cell);
                 _field.Cells[firstCell.I, firstCell.J] = cell;
@@ -53,13 +54,13 @@ namespace Battleship_2.Models.Logic
             MarkCellsNearTheShip(ship);
         }
 
-        private bool CanPlaceShip(BaseCell firstCell, OrientationsEnum orientation, int numberOfCells)
+        private bool CanPlaceShip(Cell firstCell, OrientationsEnum orientation, int numberOfCells)
         {
             int I = firstCell.I;
             int J = firstCell.J;
             for (int i = 0; i < numberOfCells; i++)
             {
-                if (!IsCellAllowed(new BaseCell(I, J))) return false;
+                if (!IsCellAllowed(new Cell(I, J))) return false;
 
                 if (orientation == OrientationsEnum.Horizontal) J++;
                 else if (orientation == OrientationsEnum.Vertical) I++;
@@ -67,9 +68,9 @@ namespace Battleship_2.Models.Logic
             return true;
         }
 
-        private bool IsCellAllowed(BaseCell firstCell)
+        private bool IsCellAllowed(Cell firstCell)
         {
-            if (LogicAccessories.FieldBoundsCheck(firstCell)
+            if (Field.FieldBoundsCheck(firstCell)
                 && _field.Cells[firstCell.I, firstCell.J].CellType != CellTypesEnum.ShipDeck
                 && IsNearCellsSatisfactory(firstCell))
                 return true;
@@ -77,9 +78,9 @@ namespace Battleship_2.Models.Logic
             return false;
         }
 
-        private bool IsNearCellsSatisfactory(BaseCell firstCell)
+        private bool IsNearCellsSatisfactory(Cell firstCell)
         {
-            foreach (var cell in LogicAccessories.GetfNearbyCells(firstCell))
+            foreach (var cell in Field.GetNearbyCells(firstCell))
             {
                 if (_field.Cells[cell.I, cell.J].CellType == CellTypesEnum.ShipDeck) return false;
             }
@@ -90,9 +91,9 @@ namespace Battleship_2.Models.Logic
         {
             foreach (var shipCell in ship.Cells)
             {
-                foreach (var nearbyCell in LogicAccessories.GetfNearbyCells(shipCell.I, shipCell.J))
+                foreach (var nearbyCell in Field.GetNearbyCells(shipCell.Base))
                 {
-                    Cell cell = _field.Cells[nearbyCell.I, nearbyCell.J];
+                    FieldCell cell = _field.Cells[nearbyCell.I, nearbyCell.J];
                     if (cell.CellType != CellTypesEnum.ShipDeck && !cell.ShipsGuids.Contains(ship.ShipGuid))
                     {
                         cell.CellType = CellTypesEnum.NearTheShip;

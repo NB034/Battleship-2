@@ -1,13 +1,9 @@
 ﻿using Battleship_2.Command;
-using Battleship_2.Models.Components;
 using Battleship_2.ViewModels.Abstractions;
 using Battleship_2.Views;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace Battleship_2.ViewModels
+namespace Battleship_2.ViewModels.PagesViewModels
 {
     internal class PVA_GamePage_VM : IGamePage_VM
     {
