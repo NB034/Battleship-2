@@ -1,6 +1,8 @@
 ﻿using Battleship_2.Command;
 using Battleship_2.Views;
+using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace Battleship_2.ViewModels.PagesViewModels
@@ -19,12 +21,23 @@ namespace Battleship_2.ViewModels.PagesViewModels
             _exitCommand = new AutoEventCommandBase(_ => Exit(), _ => true);
         }
 
+        public string Message { get; }
+        public Brush MessageBrush { get; }
+
+        public AutoEventCommandBase ToMainMenuCommand => _toMainMenuCommand;
+        public AutoEventCommandBase ExitCommand => _exitCommand;
+
         private void ToMainMenu(object o)
         {
-            if (o is WinPage page)
+            try
             {
+                var page = (Page)o;
                 var mainMenu = new MainPage();
                 page.NavigationService.Navigate(mainMenu);
+            }
+            catch(Exception ex)
+            {
+                HandleException(ex);
             }
 
         }
@@ -34,10 +47,10 @@ namespace Battleship_2.ViewModels.PagesViewModels
             Application.Current.Shutdown();
         }
 
-        public string Message { get; }
-        public Brush MessageBrush { get; }
-
-        public AutoEventCommandBase ToMainMenuCommand => _toMainMenuCommand;
-        public AutoEventCommandBase ExitCommand => _exitCommand;
+        private void HandleException(Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+            Application.Current.Shutdown();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Battleship_2.Command;
 using Battleship_2.Views;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -15,7 +16,7 @@ namespace Battleship_2.ViewModels.PagesViewModels
         {
             _resumeCommand = new AutoEventCommandBase(o => Resume(o), _ => true);
             _toMainMenuCommand = new AutoEventCommandBase(o => ToMainMenu(o), _ => true);
-            _exitCommand = new AutoEventCommandBase(o => Application.Current.Shutdown(), _ => true);
+            _exitCommand = new AutoEventCommandBase(_ => Exit(), _ => true);
         }
 
         public AutoEventCommandBase ResumeCommand => _resumeCommand;
@@ -24,14 +25,39 @@ namespace Battleship_2.ViewModels.PagesViewModels
 
         private void Resume(object o)
         {
-            var page = (Page)o;
-            page.NavigationService.GoBack();
+            try
+            {
+                var page = (Page)o;
+                page.NavigationService.GoBack();
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
         }
 
         private void ToMainMenu(object o)
         {
-            var page = (Page)o;
-            page.NavigationService.Navigate(new MainPage());
+            try
+            {
+                var page = (Page)o;
+                page.NavigationService.Navigate(new MainPage());
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+        }
+
+        private void Exit()
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void HandleException(Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+            Application.Current.Shutdown();
         }
     }
 }

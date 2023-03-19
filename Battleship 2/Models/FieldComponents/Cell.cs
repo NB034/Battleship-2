@@ -2,7 +2,7 @@
 
 namespace Battleship_2.Models.FieldComponents
 {
-    public class Cell
+    public partial class Cell
     {
         public int I { get; set; }
         public int J { get; set; }
@@ -13,9 +13,15 @@ namespace Battleship_2.Models.FieldComponents
             I = i;
             J = j;
         }
+    }
 
-        public static Cell NotValid => new(-1, -1);
 
-        public static Cell RandomCell =>  new(Random.Shared.Next(Field.FieldRows), Random.Shared.Next(Field.FieldColumns));
+
+    public partial class Cell
+    {
+        private static readonly Random _random = new Random();
+
+        public static Cell NotValid => new Cell(-1, -1);
+        public static Cell RandomCell =>  new Cell(_random.Next(Field.FieldRows), _random.Next(Field.FieldColumns));
     }
 }

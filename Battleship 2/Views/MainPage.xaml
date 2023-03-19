@@ -23,11 +23,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Content="{StaticResource Title}" FontFamily="Yu Gothic UI Light" FontSize="100" 
-               HorizontalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource TitleLinearGradient}"/>
+        <Label Grid.Row="0" Content="{StaticResource Title}" FontFamily="Yu Gothic UI Light" FontSize="150" 
+               HorizontalAlignment="Center" FontWeight="Bold" Foreground="{StaticResource TitleLinearGradient}"
+               Margin="0,20,0,0"/>
 
         <Border Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource MenuBorderStyle}">
-            <StackPanel>
+            <StackPanel Margin="10">
                 <Button Style="{StaticResource MainMenuButtons}"
                         Content="{StaticResource StartGame}" Command="{Binding StartGameCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Page}}"/>

@@ -2,6 +2,7 @@
 using Battleship_2.Views;
 using System;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Battleship_2.ViewModels.PagesViewModels
 {
@@ -21,30 +22,40 @@ namespace Battleship_2.ViewModels.PagesViewModels
 
         private void StartGame(object parameter)
         {
-            if (parameter is MainPage page)
+            try
             {
-                while (page.NavigationService.CanGoBack)
-                {
-                    try
-                    {
-                        page.NavigationService.RemoveBackEntry();
-                    }
-                    catch (Exception)
-                    {
-                        break;
-                    }
-                }
+                var page = (Page)parameter;
+                ClearNavigationHistory(page);
 
                 var gamePage = new GamePage();
-                var viewModel = new PVA_GamePage_VM(gamePage);
+                var viewModel = new PvE_GamePage_VM(gamePage);
                 gamePage.DataContext = viewModel;
                 page.NavigationService.Navigate(gamePage);
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
             }
         }
 
         private void Exit()
         {
             Application.Current.Shutdown();
+        }
+
+        private void HandleException(Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+            Application.Current.Shutdown();
+        }
+
+        private void ClearNavigationHistory(Page page)
+        {
+            while (page.NavigationService.CanGoBack)
+            {
+                try { page.NavigationService.RemoveBackEntry(); }
+                catch (Exception) { break; }
+            }
         }
     }
 }
