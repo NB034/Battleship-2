@@ -1,7 +1,7 @@
 ﻿using Battleship_2.Models.Ai;
 using Battleship_2.Models.FieldComponents;
 using System;
-using System.Diagnostics;
+using System.Threading;
 
 namespace Battleship_2.Models
 {
@@ -89,8 +89,7 @@ namespace Battleship_2.Models
 
         private void Delay()
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            while (stopwatch.ElapsedMilliseconds < AiTurnDelay) ;
+            Thread.Sleep(AiTurnDelay);
         }
     }
 }
